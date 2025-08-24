@@ -1,22 +1,21 @@
-# Sử dụng một image Linux có sẵn
+# Use a base image with Ubuntu
 FROM ubuntu:22.04
 
-# Cài đặt các công cụ cần thiết: compiler, cmake
+# Install necessary tools: compiler and make
 RUN apt-get update && \
-    apt-get install -y g++ cmake make
+    apt-get install -y g++ make
 
-# Đặt thư mục làm việc trong container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy toàn bộ code từ máy bạn vào container
+# Copy all files from your machine to the container
 COPY . .
 
-# Biên dịch code C++ thành file thực thi 'server'
-# Lệnh này giống hệt lệnh bạn chạy trong MSYS2
+# Compile the C++ code into an executable named 'server'
 RUN g++ -std=c++17 -o server main.cpp -pthread
 
-# Mở port 8080 để web server chạy
+# Expose port 8080 for the web server
 EXPOSE 8080
 
-# Lệnh chạy khi container khởi động
+# Command to run when the container starts
 CMD ["./server"]
