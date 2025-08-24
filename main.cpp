@@ -4,6 +4,7 @@ int main()
 {
     crow::SimpleApp app;
 
+    // ==================== TRANG CHỦ ====================
     CROW_ROUTE(app, "/")([](){
         auto page = R"(
 <!DOCTYPE html>
@@ -11,7 +12,7 @@ int main()
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Server C++ by Huy</title>
+    <title>Bài Thuyết Trình - Web C++</title>
     <style>
         * {
             margin: 0;
@@ -96,6 +97,10 @@ int main()
             cursor: pointer;
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+            color: white;
+            display: block;
+            text-align: center;
         }
         
         .menu-item:hover {
@@ -177,17 +182,8 @@ int main()
         .card:nth-child(2) { transition-delay: 0.2s; }
         .card:nth-child(3) { transition-delay: 0.3s; }
         .card:nth-child(4) { transition-delay: 0.4s; }
-        .card:nth-child(5) { transition-delay: 0.5s; }
-        .card:nth-child(6) { transition-delay: 0.6s; }
         
         /* Responsive */
-        @media (max-width: 968px) {
-            .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 20px;
-            }
-        }
-        
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -216,7 +212,6 @@ int main()
     
     <!-- Hiệu ứng ngôi sao -->
     <script>
-        // Tạo ngôi sao ngẫu nhiên
         for (let i = 0; i < 50; i++) {
             const star = document.createElement('div');
             star.className = 'star';
@@ -231,51 +226,36 @@ int main()
 
     <!-- Sidebar Menu -->
     <div class="sidebar">
-        <h2>🌙 Menu Chính</h2>
-        <div class="menu-item">🚀 Trang Chủ</div>
-        <div class="menu-item">⭐ Dịch Vụ</div>
-        <div class="menu-item">✨ Sản Phẩm</div>
-        <div class="menu-item">🌌 Giới Thiệu</div>
-        <div class="menu-item">📞 Liên Hệ</div>
+        <h2>🌙 Bài Thuyết Trình</h2>
+        <a href="/" class="menu-item">🏠 Trang Chủ</a>
+        <a href="/phan1" class="menu-item">📊 Phần 1: Giới Thiệu</a>
+        <a href="/phan2" class="menu-item">🔧 Phần 2: Công Nghệ</a>
+        <a href="/phan3" class="menu-item">🚀 Phần 3: Demo</a>
+        <a href="/phan4" class="menu-item">🎯 Phần 4: Kết Luận</a>
+        <a href="/lienhe" class="menu-item">📞 Liên Hệ</a>
     </div>
 
     <!-- Main Content -->
     <div class="content">
         <div class="grid-container">
-            <!-- Card 1 -->
             <div class="card">
-                <h3>Mục 1</h3>
-                <p>Nội dung mô tả cho mục thứ nhất. Đây là nội dung chi tiết về sản phẩm/dịch vụ.</p>
+                <h3>Chào mừng đến Bài Thuyết Trình</h3>
+                <p>Ứng dụng web server viết bằng C++ với Crow framework</p>
             </div>
             
-            <!-- Card 2 -->
             <div class="card">
-                <h3>Mục 2</h3>
-                <p>Nội dung mô tả cho mục thứ hai. Đây là nội dung chi tiết về sản phẩm/dịch vụ.</p>
+                <h3>Mục Tiêu</h3>
+                <p>Trình bày về khả năng lập trình web bằng ngôn ngữ C++</p>
             </div>
             
-            <!-- Card 3 -->
             <div class="card">
-                <h3>Mục 3</h3>
-                <p>Nội dung mô tả cho mục thứ ba. Đây là nội dung chi tiết về sản phẩm/dịch vụ.</p>
+                <h3>Công Nghệ</h3>
+                <p>Sử dụng Crow framework, Docker, và Render để deploy</p>
             </div>
             
-            <!-- Card 4 -->
             <div class="card">
-                <h3>Mục 4</h3>
-                <p>Nội dung mô tả cho mục thứ tư. Đây là nội dung chi tiết về sản phẩm/dịch vụ.</p>
-            </div>
-
-            <!-- Card 5 -->
-            <div class="card">
-                <h3>Mục 5</h3>
-                <p>Nội dung mô tả cho mục thứ năm. Đây là nội dung chi tiết về sản phẩm/dịch vụ.</p>
-            </div>
-            
-            <!-- Card 6 -->
-            <div class="card">
-                <h3>Mục 6</h3>
-                <p>Nội dung mô tả cho mục thứ sáu. Đây là nội dung chi tiết về sản phẩm/dịch vụ.</p>
+                <h3>Đặc Điểm</h3>
+                <p>Hiệu suất cao, giao diện hiện đại, responsive design</p>
             </div>
         </div>
     </div>
@@ -285,6 +265,350 @@ int main()
         return page;
     });
 
-    // Chạy server trên port 10000
+    // ==================== TRANG PHẦN 1 ====================
+    CROW_ROUTE(app, "/phan1")([](){
+        auto page = R"(
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần 1: Giới Thiệu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
+            color: white;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(30, 30, 60, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            color: #99ccff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(153, 204, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(153, 204, 255, 0.5);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
+        <h1>Phần 1: Giới Thiệu</h1>
+        <p>Nội dung chi tiết cho phần giới thiệu bài thuyết trình...</p>
+    </div>
+</body>
+</html>
+        )";
+        return page;
+    });
+
+    // ==================== TRANG PHẦN 2 ====================
+    CROW_ROUTE(app, "/phan2")([](){
+        auto page = R"(
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần 2: Công Nghệ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
+            color: white;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(30, 30, 60, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            color: #99ccff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(153, 204, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(153, 204, 255, 0.5);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
+        <h1>Phần 2: Công Nghệ</h1>
+        <p>Nội dung về các công nghệ sử dụng trong dự án...</p>
+    </div>
+</body>
+</html>
+        )";
+        return page;
+    });
+
+    // ==================== TRANG PHẦN 3 ====================
+    CROW_ROUTE(app, "/phan3")([](){
+        auto page = R"(
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần 3: Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
+            color: white;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(30, 30, 60, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            color: #99ccff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(153, 204, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(153, 204, 255, 0.5);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
+        <h1>Phần 3: Demo</h1>
+        <p>Demo trực tiếp ứng dụng web server C++...</p>
+    </div>
+</body>
+</html>
+        )";
+        return page;
+    });
+
+    // ==================== TRANG PHẦN 4 ====================
+    CROW_ROUTE(app, "/phan4")([](){
+        auto page = R"(
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần 4: Kết Luận</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
+            color: white;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(30, 30, 60, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            color: #99ccff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(153, 204, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(153, 204, 255, 0.5);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
+        <h1>Phần 4: Kết Luận</h1>
+        <p>Kết luận và hướng phát triển tương lai...</p>
+    </div>
+</body>
+</html>
+        )";
+        return page;
+    });
+
+    // ==================== TRANG LIÊN HỆ ====================
+    CROW_ROUTE(app, "/lienhe")([](){
+        auto page = R"(
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên Hệ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
+            color: white;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(30, 30, 60, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            color: #99ccff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(153, 204, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(153, 204, 255, 0.5);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
+        <h1>Liên Hệ</h1>
+        <p>Thông tin liên hệ và hỗ trợ...</p>
+    </div>
+</body>
+</html>
+        )";
+        return page;
+    });
+
     app.port(10000).multithreaded().run();
 }
