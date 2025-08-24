@@ -12,7 +12,7 @@ WORKDIR /app
 COPY . .
 
 # Compile the C++ code into an executable named 'server'
-RUN g++ -std=c++17 -o server main.cpp -ptthread
+RUN g++ -std=c++17 -o server main.cpp -pthread
 
 # Expose port 8080 for the web server
 EXPOSE 8080
@@ -20,3 +20,4 @@ EXPOSE 8080
 # Command to run when the container starts
 
 CMD ["./server"]
+
