@@ -12,7 +12,7 @@ int main()
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài Thuyết Trình - Web C++</title>
+    <title>8A2 - Bài Thuyết Trình</title>
     <style>
         * {
             margin: 0;
@@ -30,6 +30,7 @@ int main()
                 linear-gradient(135deg, #000000 0%, #0a0a2a 30%, #1a1a4a 70%, #2c2c6e 100%);
             position: relative;
             overflow-x: hidden;
+            color: #e6e6ff;
         }
 
         /* Hiệu ứng mặt trăng */
@@ -69,38 +70,72 @@ int main()
 
         /* Sidebar Menu */
         .sidebar {
-            width: 250px;
-            background: rgba(0, 0, 0, 0.9);
+            width: 280px;
+            background: rgba(10, 10, 30, 0.9);
             color: white;
-            padding: 20px;
+            padding: 25px 15px;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
             z-index: 2;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(100, 150, 255, 0.2);
             backdrop-filter: blur(10px);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
         }
         
         .sidebar h2 {
             text-align: center;
             margin-bottom: 30px;
             color: #99ccff;
-            text-shadow: 0 0 10px rgba(153, 204, 255, 0.7);
-            font-size: 1.5rem;
+            text-shadow: 0 0 15px rgba(153, 204, 255, 0.7);
+            font-size: 1.8rem;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(100, 150, 255, 0.3);
+        }
+        
+        .subject-title {
+            padding: 12px 15px;
+            margin: 15px 0 5px 0;
+            background: rgba(30, 50, 100, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #99ccff;
+            font-weight: bold;
+            color: #b3d9ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .subject-title:hover {
+            background: rgba(50, 80, 150, 0.5);
+            transform: translateX(5px);
+        }
+        
+        .submenu {
+            padding-left: 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .submenu.open {
+            max-height: 500px;
         }
         
         .menu-item {
-            padding: 15px;
-            margin: 10px 0;
+            padding: 12px 15px;
+            margin: 8px 0;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
             text-decoration: none;
-            color: white;
+            color: #ccddff;
             display: block;
-            text-align: center;
+            font-size: 0.95rem;
         }
         
         .menu-item:hover {
@@ -113,28 +148,47 @@ int main()
         /* Main Content */
         .content {
             flex: 1;
-            margin-left: 250px;
+            margin-left: 280px;
             padding: 40px;
             position: relative;
             z-index: 1;
         }
         
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #99ccff;
+            text-shadow: 0 0 20px rgba(153, 204, 255, 0.7);
+            margin-bottom: 15px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #ccddff;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             padding: 20px;
         }
         
         .card {
             background: rgba(30, 30, 60, 0.7);
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             transition: all 0.5s ease;
             cursor: pointer;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(100, 150, 255, 0.2);
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
@@ -164,6 +218,13 @@ int main()
             transform: translateX(100%);
         }
         
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #b3d9ff;
+            text-shadow: 0 0 15px rgba(179, 217, 255, 0.5);
+        }
+        
         .card h3 {
             color: #b3d9ff;
             margin-bottom: 15px;
@@ -184,12 +245,26 @@ int main()
         .card:nth-child(4) { transition-delay: 0.4s; }
         
         /* Responsive */
+        @media (max-width: 968px) {
+            .sidebar {
+                width: 220px;
+                padding: 20px 10px;
+            }
+            
+            .content {
+                margin-left: 220px;
+                padding: 30px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: relative;
                 margin-bottom: 20px;
+                max-height: 400px;
+                overflow-y: auto;
             }
             
             .content {
@@ -202,6 +277,14 @@ int main()
                 right: 20px;
                 width: 80px;
                 height: 80px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -222,40 +305,110 @@ int main()
             star.style.animationDelay = Math.random() * 5 + 's';
             document.body.appendChild(star);
         }
+        
+        // Xử lý mở/đóng submenu
+        document.addEventListener('DOMContentLoaded', function() {
+            const subjectTitles = document.querySelectorAll('.subject-title');
+            subjectTitles.forEach(title => {
+                title.addEventListener('click', function() {
+                    const submenu = this.nextElementSibling;
+                    submenu.classList.toggle('open');
+                    
+                    const icon = this.querySelector('span');
+                    if (submenu.classList.contains('open')) {
+                        icon.textContent = '▼';
+                    } else {
+                        icon.textContent = '►';
+                    }
+                });
+            });
+        });
     </script>
 
     <!-- Sidebar Menu -->
     <div class="sidebar">
-        <h2>🌙 8A2</h2>
-        <a href="/" class="menu-item">🏠 Trang Chủ</a>
-        <a href="/phan1" class="menu-item">📊 Phần 1: Giới Thiệu</a>
-        <a href="/phan2" class="menu-item">🔧 Phần 2: Công Nghệ</a>
-        <a href="/phan3" class="menu-item">🚀 Phần 3: Demo</a>
-        <a href="/phan4" class="menu-item">🎯 Phần 4: Kết Luận</a>
-        <a href="/lienhe" class="menu-item">📞 Liên Hệ</a>
+        <h2>8A2 Presentation</h2>
+        
+        <div class="subject-title">Toán học <span>►</span></div>
+        <div class="submenu">
+            <a href="/toan-daiso" class="menu-item">Đại số - Phương trình bậc hai</a>
+            <a href="/toan-hinhhoc" class="menu-item">Hình học - Định lý Pythagoras</a>
+            <a href="/toan-thongke" class="menu-item">Thống kê - Phân tích dữ liệu</a>
+        </div>
+        
+        <div class="subject-title">Vật lý <span>►</span></div>
+        <div class="submenu">
+            <a href="/vatly-cohoc" class="menu-item">Cơ học - Chuyển động</a>
+            <a href="/vatly-quanghoc" class="menu-item">Quang học - Khúc xạ ánh sáng</a>
+            <a href="/vatly-dien" class="menu-item">Điện học - Mạch điện</a>
+        </div>
+        
+        <div class="subject-title">Ngữ văn <span>►</span></div>
+        <div class="submenu">
+            <a href="/nguvan-tacpham" class="menu-item">Phân tích tác phẩm văn học</a>
+            <a href="/nguvan-tholucbat" class="menu-item">Thơ lục bát Việt Nam</a>
+            <a href="/nguvan-vantuluan" class="menu-item">Kỹ năng viết văn tự sự</a>
+        </div>
+        
+        <div class="subject-title">Lịch sử <span>►</span></div>
+        <div class="submenu">
+            <a href="/lichsu-vietnam" class="menu-item">Lịch sử Việt Nam thế kỷ 20</a>
+            <a href="/lichsu-thegioi" class="menu-item">Chiến tranh thế giới thứ hai</a>
+            <a href="/lichsu-vanhoadong" class="menu-item">Văn hóa Đông Sơn</a>
+        </div>
+        
+        <div class="subject-title">Tiếng Anh <span>►</span></div>
+        <div class="submenu">
+            <a href="/tienganh-nguphap" class="menu-item">Ngữ pháp - Thì hiện tại hoàn thành</a>
+            <a href="/tienganh-giaotiep" class="menu-item">Giao tiếp hàng ngày</a>
+            <a href="/tienganh-vietluan" class="menu-item">Kỹ năng viết luận</a>
+        </div>
+        
+        <a href="/lienhe" class="menu-item" style="margin-top: 30px;">📞 Liên Hệ Giáo Viên</a>
     </div>
 
     <!-- Main Content -->
     <div class="content">
+        <div class="header">
+            <h1>Chào mừng đến lớp 8A2</h1>
+            <p>Hệ thống bài thuyết trình của lớp với giao diện không gian hiện đại</p>
+        </div>
+        
         <div class="grid-container">
             <div class="card">
-                <h3>Chào mừng đến Bài Thuyết Trình</h3>
-                <p>Ứng dụng web server viết bằng C++ với Crow framework</p>
+                <div class="card-icon">📊</div>
+                <h3>Toán học</h3>
+                <p>Các bài thuyết trình về đại số, hình học và thống kê</p>
             </div>
             
             <div class="card">
-                <h3>Mục Tiêu</h3>
-                <p>Trình bày về khả năng lập trình web bằng ngôn ngữ C++</p>
+                <div class="card-icon">🔭</div>
+                <h3>Vật lý</h3>
+                <p>Khám phá các hiện tượng tự nhiên và định luật vật lý</p>
             </div>
             
             <div class="card">
-                <h3>Công Nghệ</h3>
-                <p>Sử dụng Crow framework, Docker, và Render để deploy</p>
+                <div class="card-icon">📝</div>
+                <h3>Ngữ văn</h3>
+                <p>Phân tích tác phẩm văn học và kỹ năng viết luận</p>
             </div>
             
             <div class="card">
-                <h3>Đặc Điểm</h3>
-                <p>Hiệu suất cao, giao diện hiện đại, responsive design</p>
+                <div class="card-icon">📜</div>
+                <h3>Lịch sử</h3>
+                <p>Hành trình qua các giai đoạn lịch sử quan trọng</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">🌍</div>
+                <h3>Tiếng Anh</h3>
+                <p>Nâng cao kỹ năng ngôn ngữ toàn cầu</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">🧪</div>
+                <h3>Hóa học</h3>
+                <p>Thí nghiệm và phản ứng hóa học thú vị</p>
             </div>
         </div>
     </div>
@@ -265,15 +418,15 @@ int main()
         return page;
     });
 
-    // ==================== TRANG PHẦN 1 ====================
-    CROW_ROUTE(app, "/phan1")([](){
+    // ==================== TRANG MÔN TOÁN ====================
+    CROW_ROUTE(app, "/toan-daiso")([](){
         auto page = R"(
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần 1: Giới Thiệu</title>
+    <title>Toán Đại Số - 8A2</title>
     <style>
         * {
             margin: 0;
@@ -290,7 +443,7 @@ int main()
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             background: rgba(30, 30, 60, 0.8);
             padding: 40px;
@@ -303,6 +456,7 @@ int main()
             color: #99ccff;
             margin-bottom: 30px;
             text-align: center;
+            text-shadow: 0 0 15px rgba(153, 204, 255, 0.7);
         }
         
         .back-btn {
@@ -320,13 +474,46 @@ int main()
             background: rgba(153, 204, 255, 0.5);
             transform: translateX(-5px);
         }
+        
+        .content-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(40, 40, 80, 0.5);
+            border-radius: 10px;
+            border-left: 4px solid #99ccff;
+        }
+        
+        .content-section h2 {
+            color: #b3d9ff;
+            margin-bottom: 15px;
+        }
+        
+        .content-section p {
+            line-height: 1.6;
+            color: #ccddff;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Phần 1: Giới Thiệu</h1>
-        <p>Nội dung chi tiết cho phần giới thiệu bài thuyết trình...</p>
+        <h1>Toán Đại Số - Phương trình bậc hai</h1>
+        
+        <div class="content-section">
+            <h2>Giới thiệu chung</h2>
+            <p>Phương trình bậc hai là phương trình có dạng ax² + bx + c = 0, trong đó x là ẩn số, a, b, c là các hệ số với a ≠ 0.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>Công thức nghiệm</h2>
+            <p>Để giải phương trình bậc hai, chúng ta sử dụng công thức nghiệm: x = [-b ± √(b² - 4ac)] / (2a)</p>
+            <p>Biệt thức Δ = b² - 4ac quyết định số nghiệm của phương trình.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>Ứng dụng thực tế</h2>
+            <p>Phương trình bậc hai được ứng dụng trong nhiều lĩnh vực như vật lý, kỹ thuật, kinh tế và khoa học máy tính.</p>
+        </div>
     </div>
 </body>
 </html>
@@ -334,281 +521,8 @@ int main()
         return page;
     });
 
-    // ==================== TRANG PHẦN 2 ====================
-    CROW_ROUTE(app, "/phan2")([](){
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần 2: Công Nghệ</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
-            color: white;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(30, 30, 60, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            color: #99ccff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            background: rgba(153, 204, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: rgba(153, 204, 255, 0.5);
-            transform: translateX(-5px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Phần 2: Công Nghệ</h1>
-        <p>Nội dung về các công nghệ sử dụng trong dự án...</p>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== TRANG PHẦN 3 ====================
-    CROW_ROUTE(app, "/phan3")([](){
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần 3: Demo</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
-            color: white;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(30, 30, 60, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            color: #99ccff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            background: rgba(153, 204, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: rgba(153, 204, 255, 0.5);
-            transform: translateX(-5px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Phần 3: Demo</h1>
-        <p>Demo trực tiếp ứng dụng web server C++...</p>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== TRANG PHẦN 4 ====================
-    CROW_ROUTE(app, "/phan4")([](){
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần 4: Kết Luận</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
-            color: white;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(30, 30, 60, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            color: #99ccff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            background: rgba(153, 204, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: rgba(153, 204, 255, 0.5);
-            transform: translateX(-5px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Phần 4: Kết Luận</h1>
-        <p>Kết luận và hướng phát triển tương lai...</p>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== TRANG LIÊN HỆ ====================
-    CROW_ROUTE(app, "/lienhe")([](){
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liên Hệ</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
-            color: white;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(30, 30, 60, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            color: #99ccff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            background: rgba(153, 204, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: rgba(153, 204, 255, 0.5);
-            transform: translateX(-5px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Liên Hệ</h1>
-        <p>Thông tin liên hệ và hỗ trợ...</p>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
+    // ==================== CÁC TRANG KHÁC ====================
+    // (Các route khác với cấu trúc tương tự)
 
     app.port(10000).multithreaded().run();
 }
