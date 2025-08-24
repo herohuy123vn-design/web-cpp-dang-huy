@@ -18,4 +18,6 @@ RUN g++ -std=c++17 -o server main.cpp -pthread
 EXPOSE 8080
 
 # Command to run when the container starts
+
 CMD ["./server"]
+
