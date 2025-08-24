@@ -329,39 +329,67 @@ int main()
     <div class="sidebar">
         <h2>8A2 Presentation</h2>
         
-        <div class="subject-title">Toán học <span>►</span></div>
+        <div class="subject-title">Môn Toán <span>►</span></div>
         <div class="submenu">
             <a href="/toan-daiso" class="menu-item">Đại số - Phương trình bậc hai</a>
             <a href="/toan-hinhhoc" class="menu-item">Hình học - Định lý Pythagoras</a>
             <a href="/toan-thongke" class="menu-item">Thống kê - Phân tích dữ liệu</a>
         </div>
         
-        <div class="subject-title">Vật lý <span>►</span></div>
-        <div class="submenu">
-            <a href="/vatly-cohoc" class="menu-item">Cơ học - Chuyển động</a>
-            <a href="/vatly-quanghoc" class="menu-item">Quang học - Khúc xạ ánh sáng</a>
-            <a href="/vatly-dien" class="menu-item">Điện học - Mạch điện</a>
-        </div>
-        
-        <div class="subject-title">Ngữ văn <span>►</span></div>
+        <div class="subject-title">Môn Ngữ Văn <span>►</span></div>
         <div class="submenu">
             <a href="/nguvan-tacpham" class="menu-item">Phân tích tác phẩm văn học</a>
             <a href="/nguvan-tholucbat" class="menu-item">Thơ lục bát Việt Nam</a>
             <a href="/nguvan-vantuluan" class="menu-item">Kỹ năng viết văn tự sự</a>
         </div>
         
-        <div class="subject-title">Lịch sử <span>►</span></div>
+        <div class="subject-title">Môn Ngoại ngữ <span>►</span></div>
+        <div class="submenu">
+            <a href="/ngoaingu-nguphap" class="menu-item">Ngữ pháp - Thì hiện tại hoàn thành</a>
+            <a href="/ngoaingu-giaotiep" class="menu-item">Giao tiếp hàng ngày</a>
+            <a href="/ngoaingu-vietluan" class="menu-item">Kỹ năng viết luận</a>
+        </div>
+        
+        <div class="subject-title">Môn Vật Lý <span>►</span></div>
+        <div class="submenu">
+            <a href="/vatly-cohoc" class="menu-item">Cơ học - Chuyển động</a>
+            <a href="/vatly-quanghoc" class="menu-item">Quang học - Khúc xạ ánh sáng</a>
+            <a href="/vatly-dien" class="menu-item">Điện học - Mạch điện</a>
+        </div>
+        
+        <div class="subject-title">Môn Hóa học <span>►</span></div>
+        <div class="submenu">
+            <a href="/hoahoc-voco" class="menu-item">Hóa vô cơ - Phản ứng oxi hóa khử</a>
+            <a href="/hoahoc-huuco" class="menu-item">Hóa hữu cơ - Hydrocarbon</a>
+            <a href="/hoahoc-phuongphap" class="menu-item">Phương pháp giải bài tập Hóa học</a>
+        </div>
+        
+        <div class="subject-title">Môn Sinh học <span>►</span></div>
+        <div class="submenu">
+            <a href="/sinhhoc-tebao" class="menu-item">Tế bào - Cấu trúc và chức năng</a>
+            <a href="/sinhhoc-ditruyen" class="menu-item">Di truyền học - ADN và gen</a>
+            <a href="/sinhhoc-sinhthai" class="menu-item">Hệ sinh thái - Môi trường</a>
+        </div>
+        
+        <div class="subject-title">Môn Lịch sử <span>►</span></div>
         <div class="submenu">
             <a href="/lichsu-vietnam" class="menu-item">Lịch sử Việt Nam thế kỷ 20</a>
             <a href="/lichsu-thegioi" class="menu-item">Chiến tranh thế giới thứ hai</a>
             <a href="/lichsu-vanhoadong" class="menu-item">Văn hóa Đông Sơn</a>
         </div>
         
-        <div class="subject-title">Tiếng Anh <span>►</span></div>
+        <div class="subject-title">Môn Địa lý <span>►</span></div>
         <div class="submenu">
-            <a href="/tienganh-nguphap" class="menu-item">Ngữ pháp - Thì hiện tại hoàn thành</a>
-            <a href="/tienganh-giaotiep" class="menu-item">Giao tiếp hàng ngày</a>
-            <a href="/tienganh-vietluan" class="menu-item">Kỹ năng viết luận</a>
+            <a href="/dialy-diali" class="menu-item">Địa lý tự nhiên Việt Nam</a>
+            <a href="/dialy-dancu" class="menu-item">Địa lý dân cư và kinh tế</a>
+            <a href="/dialy-moitruong" class="menu-item">Địa lý môi trường và tài nguyên</a>
+        </div>
+        
+        <div class="subject-title">Môn GDCD <span>►</span></div>
+        <div class="submenu">
+            <a href="/gdcd-daoduc" class="menu-item">Giáo dục đạo đức và nhân cách</a>
+            <a href="/gdcd-phap luat" class="menu-item">Hiến pháp và pháp luật Việt Nam</a>
+            <a href="/gdcd-congdan" class="menu-item">Quyền và nghĩa vụ công dân</a>
         </div>
         
         <a href="/lienhe" class="menu-item" style="margin-top: 30px;">📞 Liên Hệ Giáo Viên</a>
@@ -376,39 +404,57 @@ int main()
         
         <div class="grid-container">
             <div class="card">
-                <div class="card-icon">📊</div>
-                <h3>Toán học</h3>
+                <div class="card-icon">📐</div>
+                <h3>Môn Toán</h3>
                 <p>Các bài thuyết trình về đại số, hình học và thống kê</p>
             </div>
             
             <div class="card">
-                <div class="card-icon">🔭</div>
-                <h3>Vật lý</h3>
-                <p>Khám phá các hiện tượng tự nhiên và định luật vật lý</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">📝</div>
-                <h3>Ngữ văn</h3>
+                <div class="card-icon">📖</div>
+                <h3>Môn Ngữ Văn</h3>
                 <p>Phân tích tác phẩm văn học và kỹ năng viết luận</p>
             </div>
             
             <div class="card">
-                <div class="card-icon">📜</div>
-                <h3>Lịch sử</h3>
-                <p>Hành trình qua các giai đoạn lịch sử quan trọng</p>
-            </div>
-            
-            <div class="card">
                 <div class="card-icon">🌍</div>
-                <h3>Tiếng Anh</h3>
+                <h3>Môn Ngoại ngữ</h3>
                 <p>Nâng cao kỹ năng ngôn ngữ toàn cầu</p>
             </div>
             
             <div class="card">
+                <div class="card-icon">🔭</div>
+                <h3>Môn Vật Lý</h3>
+                <p>Khám phá các hiện tượng tự nhiên và định luật vật lý</p>
+            </div>
+            
+            <div class="card">
                 <div class="card-icon">🧪</div>
-                <h3>Hóa học</h3>
+                <h3>Môn Hóa học</h3>
                 <p>Thí nghiệm và phản ứng hóa học thú vị</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">🔬</div>
+                <h3>Môn Sinh học</h3>
+                <p>Tìm hiểu về thế giới sinh vật và cơ thể sống</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">📜</div>
+                <h3>Môn Lịch sử</h3>
+                <p>Hành trình qua các giai đoạn lịch sử quan trọng</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">🗺️</div>
+                <h3>Môn Địa lý</h3>
+                <p>Khám phá Trái Đất và các hiện tượng địa lý</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">⚖️</div>
+                <h3>Môn GDCD</h3>
+                <p>Giáo dục công dân và phát triển nhân cách</p>
             </div>
         </div>
     </div>
@@ -513,6 +559,108 @@ int main()
         <div class="content-section">
             <h2>Ứng dụng thực tế</h2>
             <p>Phương trình bậc hai được ứng dụng trong nhiều lĩnh vực như vật lý, kỹ thuật, kinh tế và khoa học máy tính.</p>
+        </div>
+    </div>
+</body>
+</html>
+        )";
+        return page;
+    });
+
+    // ==================== TRANG MÔN NGỮ VĂN ====================
+    CROW_ROUTE(app, "/nguvan-tacpham")([](){
+        auto page = R"(
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngữ Văn - 8A2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
+            color: white;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(30, 30, 60, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            color: #99ccff;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(153, 204, 255, 0.7);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(153, 204, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(153, 204, 255, 0.5);
+            transform: translateX(-5px);
+        }
+        
+        .content-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(40, 40, 80, 0.5);
+            border-radius: 10px;
+            border-left: 4px solid #99ccff;
+        }
+        
+        .content-section h2 {
+            color: #b3d9ff;
+            margin-bottom: 15px;
+        }
+        
+        .content-section p {
+            line-height: 1.6;
+            color: #ccddff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
+        <h1>Ngữ Văn - Phân tích tác phẩm văn học</h1>
+        
+        <div class="content-section">
+            <h2>Giới thiệu chung</h2>
+            <p>Phân tích tác phẩm văn học là quá trình tìm hiểu, đánh giá và cảm thụ các giá trị nội dung và nghệ thuật của tác phẩm.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>Phương pháp phân tích</h2>
+            <p>Để phân tích tác phẩm văn học, cần chú ý đến hoàn cảnh sáng tác, nội dung tư tưởng, nghệ thuật xây dựng nhân vật và giá trị nhân văn.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>Ví dụ minh họa</h2>
+            <p>Phân tích tác phẩm "Lão Hạc" của Nam Cao: Tấn bi kịch của người nông dân nghèo trước Cách mạng tháng Tám.</p>
         </div>
     </div>
 </body>
