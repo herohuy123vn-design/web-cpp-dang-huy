@@ -226,7 +226,7 @@ int main()
 
     <!-- Sidebar Menu -->
     <div class="sidebar">
-        <h2>🌙 Bài Thuyết Trình</h2>
+        <h2>🌙 8A2</h2>
         <a href="/" class="menu-item">🏠 Trang Chủ</a>
         <a href="/phan1" class="menu-item">📊 Phần 1: Giới Thiệu</a>
         <a href="/phan2" class="menu-item">🔧 Phần 2: Công Nghệ</a>
