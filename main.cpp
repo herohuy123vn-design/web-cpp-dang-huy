@@ -36,37 +36,37 @@ int main() {
 <body>
     <div class="container">
         <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Toán Đại Số - Phương trình bậc hai</h1>
+        <h1>Toán Đại Số</h1>
         
         <div class="content-section">
             <h2>Giới thiệu chung</h2>
-            <p>Phương trình bậc hai là phương trình có dạng ax² + bx + c = 0, trong đó x là ẩn số, a, b, c là các hệ số với a ≠ 0.</p>
+            <p>text</p>
         </div>
         
         <div class="content-section">
             <h2>Công thức nghiệm</h2>
-            <p>Để giải phương trình bậc hai, chúng ta sử dụng công thức nghiệm: x = [-b ± √(b² - 4ac)] / (2a)</p>
-            <p>Biệt thức Δ = b² - 4ac quyết định số nghiệm của phương trình:</p>
+            <p>text</p>
+            <p>text</p>
             <ul>
-                <li>Δ > 0: Phương trình có 2 nghiệm phân biệt</li>
-                <li>Δ = 0: Phương trình có nghiệm kép</li>
-                <li>Δ < 0: Phương trình vô nghiệm</li>
+                <li>text</li>
+                <li>text</li>
+                <li>text</li>
             </ul>
         </div>
         
         <div class="content-section">
             <h2>Ứng dụng thực tế</h2>
-            <p>Phương trình bậc hai được ứng dụng trong nhiều lĩnh vực như vật lý, kỹ thuật, kinh tế và khoa học máy tính.</p>
+            <p>text</p>
         </div>
         
         <div class="content-section">
             <h2>Ví dụ minh họa</h2>
-            <p>Giải phương trình: x² - 5x + 6 = 0</p>
-            <p>Ta có: a = 1, b = -5, c = 6</p>
-            <p>Δ = b² - 4ac = (-5)² - 4×1×6 = 25 - 24 = 1 > 0</p>
-            <p>Phương trình có 2 nghiệm phân biệt:</p>
-            <p>x₁ = [5 + √1] / 2 = 3</p>
-            <p>x₂ = [5 - √1] / 2 = 2</p>
+            <p>text</p>
+            <p>text</p>
+            <p>text</p>
+            <p>text</p>
+            <p>text</p>
+            <p>text</p>
         </div>
     </div>
 </body>
@@ -83,7 +83,7 @@ int main() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngữ Văn - 8A2</title>
+    <title>Ngữ Văn - 9A2</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%); color: white; padding: 40px; min-height: 100vh; }
@@ -156,7 +156,7 @@ int main() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vật Lý - 8A2</title>
+    <title>Vật Lý - 9A2</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%); color: white; padding: 40px; min-height: 100vh; }
@@ -279,7 +279,7 @@ int main() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài Thuyết Trình - 8A2</title>
+    <title>Bài Thuyết Trình - 2</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%); color: white; padding: 40px; min-height: 100vh; }
