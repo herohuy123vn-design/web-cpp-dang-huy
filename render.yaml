@@ -5,4 +5,4 @@ services:
     plan: free
     docker:
       dockerfile: Dockerfile
-    port: 8080
+    port: 10000
