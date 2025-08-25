@@ -1,3 +1,33 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <cstdlib>
+#include <cstdio>
+#include <memory>
+#include <stdexcept>
+#include <array>
+#include <sstream>
+#include <thread>
+#include <chrono>
+#include <map>
+
+// Hàm thực thi lệnh và trả về kết quả
+std::string exec(const char* cmd) {
+    std::array<char, 128> buffer;
+    std::string result;
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) {
+        throw std::runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        result += buffer.data();
+    }
+    return result;
+}
+
+// Hàm tạo trang HTML với giao diện không gian vũ trụ
+std::string generateHTML() {
+    return R"(
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -351,7 +381,7 @@
                     </ul>
                 </li>
                 
-                <!-- Các môn khác sẽ được thêm ở đây -->
+                <!-- Ngoại ngữ -->
                 <li class="menu-item">
                     <div class="menu-title" onclick="toggleSubmenu(this)">
                         <span><i class="fas fa-globe-americas"></i> Ngoại ngữ</span>
@@ -364,6 +394,7 @@
                     </ul>
                 </li>
                 
+                <!-- Vật lý -->
                 <li class="menu-item">
                     <div class="menu-title" onclick="toggleSubmenu(this)">
                         <span><i class="fas fa-atom"></i> Vật lý</span>
@@ -376,6 +407,7 @@
                     </ul>
                 </li>
                 
+                <!-- Sinh học -->
                 <li class="menu-item">
                     <div class="menu-title" onclick="toggleSubmenu(this)">
                         <span><i class="fas fa-dna"></i> Sinh học</span>
@@ -388,6 +420,7 @@
                     </ul>
                 </li>
                 
+                <!-- Lịch sử -->
                 <li class="menu-item">
                     <div class="menu-title" onclick="toggleSubmenu(this)">
                         <span><i class="fas fa-landmark"></i> Lịch sử</span>
@@ -400,6 +433,7 @@
                     </ul>
                 </li>
                 
+                <!-- Địa lý -->
                 <li class="menu-item">
                     <div class="menu-title" onclick="toggleSubmenu(this)">
                         <span><i class="fas fa-globe-asia"></i> Địa lý</span>
@@ -409,6 +443,32 @@
                         <li class="submenu-item" onclick="showPresentation('dia-ly', 'tu-nhien')">Tự nhiên</li>
                         <li class="submenu-item" onclick="showPresentation('dia-ly', 'kinh-te')">Kinh tế</li>
                         <li class="submenu-item" onclick="showPresentation('dia-ly', 'dan-cu')">Dân cư</li>
+                    </ul>
+                </li>
+                
+                <!-- Hóa học -->
+                <li class="menu-item">
+                    <div class="menu-title" onclick="toggleSubmenu(this)">
+                        <span><i class="fas fa-flask"></i> Hóa học</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="submenu-item" onclick="showPresentation('hoa-hoc', 'vo-co')">Hóa vô cơ</li>
+                        <li class="submenu-item" onclick="showPresentation('hoa-hoc', 'huu-co')">Hóa hữu cơ</li>
+                        <li class="submenu-item" onclick="showPresentation('hoa-hoc', 'phan-ung')">Phản ứng hóa học</li>
+                    </ul>
+                </li>
+                
+                <!-- Tin học -->
+                <li class="menu-item">
+                    <div class="menu-title" onclick="toggleSubmenu(this)">
+                        <span><i class="fas fa-laptop-code"></i> Tin học</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="submenu-item" onclick="showPresentation('tin-hoc', 'lap-trinh')">Lập trình</li>
+                        <li class="submenu-item" onclick="showPresentation('tin-hoc', 'csdl')">Cơ sở dữ liệu</li>
+                        <li class="submenu-item" onclick="showPresentation('tin-hoc', 'mang-may-tinh')">Mạng máy tính</li>
                     </ul>
                 </li>
             </ul>
@@ -562,7 +622,7 @@
             // Cuộn đến khu vực thuyết trình
             presentationArea.scrollIntoView({ behavior: 'smooth' });
             
-            // Cập nhật nội dung dựa trên môn và chủ đề (trong thực tế, bạn sẽ tải nội dung từ server hoặc từ một nguồn dữ liệu)
+            // Cập nhật nội dung dựa trên môn và chủ đề
             updatePresentationContent(subject, topic);
         }
         
@@ -583,14 +643,55 @@
             event.target.classList.add('active');
         }
         
-        // Cập nhật nội dung bài thuyết trình (hàm mẫu)
+        // Cập nhật nội dung bài thuyết trình
         function updatePresentationContent(subject, topic) {
-            // Trong thực tế, bạn sẽ tải nội dung từ server hoặc từ một nguồn dữ liệu
+            // Đây là nơi bạn sẽ tải nội dung từ server hoặc từ một nguồn dữ liệu
             // Ở đây chúng ta chỉ cập nhật tiêu đề làm ví dụ
+            const subjectNames = {
+                'toan': 'Toán học',
+                'van': 'Ngữ văn',
+                'ngoai-ngu': 'Ngoại ngữ',
+                'vat-ly': 'Vật lý',
+                'sinh-hoc': 'Sinh học',
+                'lich-su': 'Lịch sử',
+                'dia-ly': 'Địa lý',
+                'hoa-hoc': 'Hóa học',
+                'tin-hoc': 'Tin học'
+            };
+            
+            const topicNames = {
+                'hinh-hoc': 'Hình học',
+                'dai-so': 'Đại số',
+                'thong-ke': 'Thống kê',
+                'van-hoc': 'Văn học',
+                'ngu-phap': 'Ngữ pháp',
+                'lam-van': 'Làm văn',
+                'tu-vung': 'Từ vựng',
+                'giao-tiep': 'Giao tiếp',
+                'co-hoc': 'Cơ học',
+                'quang-hoc': 'Quang học',
+                'dien-hoc': 'Điện học',
+                'te-bao': 'Tế bào',
+                'di-truyen': 'Di truyền',
+                'sinh-thai': 'Sinh thái',
+                'co-dai': 'Cổ đại',
+                'trung-dai': 'Trung đại',
+                'hien-dai': 'Hiện đại',
+                'tu-nhien': 'Tự nhiên',
+                'kinh-te': 'Kinh tế',
+                'dan-cu': 'Dân cư',
+                'vo-co': 'Hóa vô cơ',
+                'huu-co': 'Hóa hữu cơ',
+                'phan-ung': 'Phản ứng hóa học',
+                'lap-trinh': 'Lập trình',
+                'csdl': 'Cơ sở dữ liệu',
+                'mang-may-tinh': 'Mạng máy tính'
+            };
+            
             const titles = {
-                'mo-bai': `Mở bài: ${topic} trong ${subject}`,
-                'than-bai': `Thân bài: ${topic} trong ${subject}`,
-                'ket-bai': `Kết bài: ${topic} trong ${subject}`
+                'mo-bai': `Mở bài: ${topicNames[topic]} trong ${subjectNames[subject]}`,
+                'than-bai': `Thân bài: ${topicNames[topic]} trong ${subjectNames[subject]}`,
+                'ket-bai': `Kết bài: ${topicNames[topic]} trong ${subjectNames[subject]}`
             };
             
             for (const section in titles) {
@@ -608,3 +709,31 @@
     </script>
 </body>
 </html>
+    )";
+}
+
+int main() {
+    // Tạo file HTML
+    std::ofstream htmlFile("index.html");
+    if (htmlFile.is_open()) {
+        htmlFile << generateHTML();
+        htmlFile.close();
+        std::cout << "File HTML đã được tạo thành công: index.html" << std::endl;
+    } else {
+        std::cerr << "Không thể tạo file HTML!" << std::endl;
+        return 1;
+    }
+
+    // Mở file HTML trong trình duyệt mặc định
+    #ifdef _WIN32
+        system("start index.html");
+    #elif __APPLE__
+        system("open index.html");
+    #else
+        system("xdg-open index.html");
+    #endif
+
+    std::cout << "Trang web đang được mở trong trình duyệt..." << std::endl;
+
+    return 0;
+}
