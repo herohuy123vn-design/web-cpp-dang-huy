@@ -781,5 +781,5 @@ int main() {
     // (Ngữ văn, Ngoại ngữ, Vật lý, Sinh học, Lịch sử, Địa lý)
 
     // ==================== CHẠY ỨNG DỤNG ====================
-    app.port(8080).multithreaded().run();
+    app.port(10000).multithreaded().run();
 }
