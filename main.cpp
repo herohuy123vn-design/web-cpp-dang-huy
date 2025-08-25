@@ -1,785 +1,610 @@
-#include "crow.h"
-#include <vector>
-#include <map>
-#include <string>
-
-int main() {
-    crow::SimpleApp app;
-
-    // ==================== TRANG CHỦ ====================
-    CROW_ROUTE(app, "/")([]() {
-        auto page = R"(...)"; // Giữ nguyên nội dung HTML của trang chủ
-        return page;
-    });
-
-    // ==================== NHÓM MÔN TOÁN ====================
-    // --- Đại số ---
-    CROW_ROUTE(app, "/toan/daiso")([]() {
-        auto page = R"(
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toán Đại Số - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/toan" class="back-btn">← Môn Toán</a>
-        <h1>Toán Đại Số</h1>
-        <!-- Nội dung đại số -->
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
+    <title>Hệ Thống Thuyết Trình Học Tập</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    // --- Hình học ---
-    CROW_ROUTE(app, "/toan/hinhhoc")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toán Hình Học - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/toan" class="back-btn">← Môn Toán</a>
-        <h1>Toán Hình Học</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm cơ bản</h2>
-            <p>Hình học là nhánh của toán học nghiên cứu về hình dạng, kích thước, vị trí tương đối của các hình khối và các tính chất của không gian.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các chủ đề chính</h2>
-            <ul>
-                <li>Hình học phẳng: tam giác, tứ giác, đường tròn</li>
-                <li>Hình học không gian: hình chóp, hình lăng trụ, hình cầu</li>
-                <li>Hình học giải tích: tọa độ, phương trình đường thẳng, đường tròn</li>
-                <li>Lượng giác: tỉ số lượng giác, hệ thức lượng trong tam giác</li>
-            </ul>
-        </div>
-        
-        <div class="content-section">
-            <h2>Định lý Pythagoras</h2>
-            <p>Trong một tam giác vuông, bình phương cạnh huyền bằng tổng bình phương hai cạnh góc vuông.</p>
-            <p>Công thức: c² = a² + b²</p>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #0f3460;
+            --text-color: #f0f0f0;
+            --highlight: #4cc9f0;
+            --moon-color: #e6e6e6;
+            --star-color: #ffffff;
+        }
 
-    // --- Thống kê ---
-    CROW_ROUTE(app, "/toan/thongke")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toán Thống Kê - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/toan" class="back-btn">← Môn Toán</a>
-        <h1>Toán Thống Kê</h1>
-        
-        <div class="content-section">
-            <h2>Giới thiệu</h2>
-            <p>Thống kê là ngành toán học ứng dụng liên quan đến việc thu thập, phân tích, diễn giải và trình bày dữ liệu.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các khái niệm cơ bản</h2>
-            <ul>
-                <li>Dữ liệu và các loại dữ liệu</li>
-                <li>Tần số và bảng tần số</li>
-                <li>Biểu đồ: biểu đồ cột, biểu đồ đường, biểu đồ tròn</li>
-                <li>Các số đặc trưng: số trung bình, trung vị, mốt</li>
-                <li>Phương sai và độ lệch chuẩn</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
+        body {
+            background: linear-gradient(to bottom, #000428, #004e92);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-    // ==================== NHÓM MÔN NGỮ VĂN ====================
-    // --- Thơ lục bát ---
-    CROW_ROUTE(app, "/nguvan/tholucbat")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thơ Lục Bát - 9A2</title>
-    <style>...</style>
+        /* Background elements - stars and moon */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: var(--star-color);
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .moon {
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--moon-color);
+            box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.6);
+            z-index: -1;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-right: 1px solid rgba(79, 129, 189, 0.3);
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            color: var(--highlight);
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 10px 0;
+        }
+
+        .menu-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-title {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .menu-title:hover {
+            background-color: rgba(15, 52, 96, 0.5);
+        }
+
+        .menu-title i {
+            transition: transform 0.3s;
+        }
+
+        .submenu {
+            list-style: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: rgba(10, 15, 30, 0.5);
+        }
+
+        .submenu.open {
+            max-height: 500px;
+        }
+
+        .submenu-item {
+            padding: 12px 20px 12px 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submenu-item:hover {
+            background-color: rgba(15, 52, 96, 0.3);
+            color: var(--highlight);
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .content-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--highlight);
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: rgba(26, 26, 46, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(76, 201, 240, 0.4);
+        }
+
+        .card-header {
+            background: var(--accent-color);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-content {
+            margin-bottom: 15px;
+        }
+
+        .card-buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .card-btn {
+            padding: 8px 15px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 5px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card-btn:hover {
+            background: var(--highlight);
+            color: var(--primary-color);
+        }
+
+        /* Presentation content */
+        .presentation-content {
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .presentation-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .section-btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 5px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .section-btn.active {
+            background: var(--highlight);
+            color: var(--primary-color);
+        }
+
+        .section-content {
+            display: none;
+            padding: 20px;
+            background: rgba(15, 52, 96, 0.3);
+            border-radius: 10px;
+            min-height: 200px;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 70vh;
+            }
+            
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .moon {
+                width: 60px;
+                height: 60px;
+                right: 20px;
+                top: 20px;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Background elements -->
+    <div class="stars" id="stars"></div>
+    <div class="moon"></div>
+
     <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/nguvan" class="back-btn">← Môn Ngữ Văn</a>
-        <h1>Thơ Lục Bát</h1>
-        
-        <div class="content-section">
-            <h2>Khái quát về thơ lục bát</h2>
-            <p>Lục bát là thể thơ dân tộc của Việt Nam, kết cấu theo từng cặp: câu trên 6 tiếng (lục), câu dưới 8 tiếng (bát).</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Luật thơ lục bát</h2>
-            <ul>
-                <li>Luật bằng trắc: tiếng thứ 2 bằng, tiếng thứ 4 trắc, tiếng thứ 6 bằng, tiếng thứ 8 bằng</li>
-                <li>Luật gieo vần: tiếng thứ 6 của câu lục vần với tiếng thứ 6 của câu bát</li>
-                <li>Luật đối: không bắt buộc nhưng thường có đối ở các tiếng thứ 2-4-6</li>
-            </ul>
-        </div>
-        
-        <div class="content-section">
-            <h2>Ví dụ minh họa</h2>
-            <div class="quote">
-                "Trăm năm trong cõi người ta<br>
-                Chữ tài chữ mệnh khéo là ghét nhau<br>
-                Trải qua một cuộc bể dâu<br>
-                Những điều trông thấy mà đau đớn lòng"
+        <!-- Sidebar với menu môn học -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Môn Học</h2>
+                <p>Chọn môn để thuyết trình</p>
             </div>
-            <p>(Trích Truyện Kiều - Nguyễn Du)</p>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // --- Văn tự luận ---
-    CROW_ROUTE(app, "/nguvan/vantuluan")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Văn Tự Luận - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/nguvan" class="back-btn">← Môn Ngữ Văn</a>
-        <h1>Văn Tự Luận</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm văn tự luận</h2>
-            <p>Văn tự luận là loại văn bản trình bày ý kiến, quan điểm của người viết về một vấn đề xã hội hoặc văn học, sử dụng lập luận và dẫn chứng để thuyết phục người đọc.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Bố cục bài văn tự luận</h2>
-            <ul>
-                <li>Mở bài: Giới thiệu vấn đề và nêu ý kiến đánh giá</li>
-                <li>Thân bài: Triển khai luận điểm, đưa dẫn chứng và lập luận</li>
-                <li>Kết bài: Khẳng định lại quan điểm và mở rộng vấn đề</li>
+            <ul class="sidebar-menu">
+                <!-- Toán -->
+                <li class="menu-item">
+                    <div class="menu-title" onclick="toggleSubmenu(this)">
+                        <span><i class="fas fa-calculator"></i> Toán học</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="submenu-item" onclick="showPresentation('toan', 'hinh-hoc')">Hình học</li>
+                        <li class="submenu-item" onclick="showPresentation('toan', 'dai-so')">Đại số</li>
+                        <li class="submenu-item" onclick="showPresentation('toan', 'thong-ke')">Thống kê</li>
+                    </ul>
+                </li>
+                
+                <!-- Ngữ văn -->
+                <li class="menu-item">
+                    <div class="menu-title" onclick="toggleSubmenu(this)">
+                        <span><i class="fas fa-book"></i> Ngữ văn</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="submenu-item" onclick="showPresentation('van', 'van-hoc')">Văn học</li>
+                        <li class="submenu-item" onclick="showPresentation('van', 'ngu-phap')">Ngữ pháp</li>
+                        <li class="submenu-item" onclick="showPresentation('van', 'lam-van')">Làm văn</li>
+                    </ul>
+                </li>
+                
+                <!-- Các môn khác sẽ được thêm ở đây -->
+                <li class="menu-item">
+                    <div class="menu-title" onclick="toggleSubmenu(this)">
+                        <span><i class="fas fa-globe-americas"></i> Ngoại ngữ</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="submenu-item" onclick="showPresentation('ngoai-ngu', 'tu-vung')">Từ vựng</li>
+                        <li class="submenu-item" onclick="showPresentation('ngoai-ngu', 'ngu-phap')">Ngữ pháp</li>
+                        <li class="submenu-item" onclick="showPresentation('ngoai-ngu', 'giao-tiep')">Giao tiếp</li>
+                    </ul>
+                </li>
+                
+                <li class="menu-item">
+                    <div class="menu-title" onclick="toggleSubmenu(this)">
+                        <span><i class="fas fa-atom"></i> Vật lý</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="submenu-item" onclick="showPresentation('vat-ly', 'co-hoc')">Cơ học</li>
+                        <li class="submenu-item" onclick="showPresentation('vat-ly', 'quang-hoc')">Quang học</li>
+                        <li class="submenu-item" onclick="showPresentation('vat-ly', 'dien-hoc')">Điện học</li>
+                    </ul>
+                </li>
+                
+                <li class="menu-item">
+                    <div class="menu-title" onclick="toggleSubmenu(this)">
+                        <span><i class="fas fa-dna"></i> Sinh học</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="submenu-item" onclick="showPresentation('sinh-hoc', 'te-bao')">Tế bào</li>
+                        <li class="submenu-item" onclick="showPresentation('sinh-hoc', 'di-truyen')">Di truyền</li>
+                        <li class="submenu-item" onclick="showPresentation('sinh-hoc', 'sinh-thai')">Sinh thái</li>
+                    </ul>
+                </li>
+                
+                <li class="menu-item">
+                    <div class="menu-title" onclick="toggleSubmenu(this)">
+                        <span><i class="fas fa-landmark"></i> Lịch sử</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="submenu-item" onclick="showPresentation('lich-su', 'co-dai')">Cổ đại</li>
+                        <li class="submenu-item" onclick="showPresentation('lich-su', 'trung-dai')">Trung đại</li>
+                        <li class="submenu-item" onclick="showPresentation('lich-su', 'hien-dai')">Hiện đại</li>
+                    </ul>
+                </li>
+                
+                <li class="menu-item">
+                    <div class="menu-title" onclick="toggleSubmenu(this)">
+                        <span><i class="fas fa-globe-asia"></i> Địa lý</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="submenu-item" onclick="showPresentation('dia-ly', 'tu-nhien')">Tự nhiên</li>
+                        <li class="submenu-item" onclick="showPresentation('dia-ly', 'kinh-te')">Kinh tế</li>
+                        <li class="submenu-item" onclick="showPresentation('dia-ly', 'dan-cu')">Dân cư</li>
+                    </ul>
+                </li>
             </ul>
         </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
 
-    // ==================== NHÓM MÔN NGOẠI NGỮ ====================
-    // --- Ngữ pháp ---
-    CROW_ROUTE(app, "/ngoaingu/nguphap")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngữ Pháp - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/ngoaingu" class="back-btn">← Môn Ngoại Ngữ</a>
-        <h1>Ngữ Pháp</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm ngữ pháp</h2>
-            <p>Ngữ pháp là hệ thống các quy tắc về cấu trúc và sử dụng ngôn ngữ, bao gồm các thành phần như từ loại, cấu trúc câu, thì, thể, v.v.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các thì cơ bản trong tiếng Anh</h2>
-            <ul>
-                <li>Hiện tại đơn: Diễn tả thói quen, sự thật hiển nhiên</li>
-                <li>Hiện tại tiếp diễn: Diễn tả hành động đang xảy ra</li>
-                <li>Quá khứ đơn: Diễn tả hành động đã xảy ra và kết thúc</li>
-                <li>Quá khứ tiếp diễn: Diễn tả hành động đang xảy ra tại thời điểm trong quá khứ</li>
-                <li>Tương lai đơn: Diễn tả hành động sẽ xảy ra</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
+        <!-- Nội dung chính -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1>Hệ Thống Thuyết Trình Học Tập</h1>
+                <p>Chọn môn học và chuyên đề từ menu bên trái để bắt đầu</p>
+            </div>
 
-    // --- Giao tiếp ---
-    CROW_ROUTE(app, "/ngoaingu/giaotiep")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giao Tiếp - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/ngoaingu" class="back-btn">← Môn Ngoại Ngữ</a>
-        <h1>Giao Tiếp</h1>
-        
-        <div class="content-section">
-            <h2>Kỹ năng giao tiếp</h2>
-            <p>Giao tiếp là quá trình trao đổi thông tin, ý tưởng, cảm xúc giữa người với người thông qua ngôn ngữ nói, viết hoặc cử chỉ.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các tình huống giao tiếp thông dụng</h2>
-            <ul>
-                <li>Chào hỏi và giới thiệu bản thân</li>
-                <li>Hỏi đường và chỉ đường</li>
-                <li>Mua sắm và trả giá</li>
-                <li>Đặt phòng khách sạn và đặt món ăn</li>
-                <li>Thảo luận về sở thích và kế hoạch</li>
-            </ul>
+            <!-- Grid card hiển thị nội dung -->
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Toán - Hình học</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-content">
+                            <p>Khám phá thế giới hình học với các định lý và công thức tính toán thú vị.</p>
+                        </div>
+                        <div class="card-buttons">
+                            <button class="card-btn" onclick="showPresentation('toan', 'hinh-hoc')">Xem bài</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Ngữ văn - Văn học</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-content">
+                            <p>Khám phá các tác phẩm văn học nổi tiếng và phân tích ý nghĩa sâu sắc.</p>
+                        </div>
+                        <div class="card-buttons">
+                            <button class="card-btn" onclick="showPresentation('van', 'van-hoc')">Xem bài</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Vật lý - Cơ học</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-content">
+                            <p>Tìm hiểu các định luật về chuyển động và lực trong cơ học cổ điển.</p>
+                        </div>
+                        <div class="card-buttons">
+                            <button class="card-btn" onclick="showPresentation('vat-ly', 'co-hoc')">Xem bài</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Khu vực hiển thị nội dung thuyết trình -->
+            <div id="presentation-area" class="presentation-content">
+                <div class="section-nav">
+                    <button class="section-btn active" onclick="showSection('mo-bai')">Mở bài</button>
+                    <button class="section-btn" onclick="showSection('than-bai')">Thân bài</button>
+                    <button class="section-btn" onclick="showSection('ket-bai')">Kết bài</button>
+                </div>
+
+                <div id="mo-bai" class="section-content active">
+                    <h3>Phần mở bài</h3>
+                    <p>Nội dung mở bài sẽ được hiển thị ở đây. Phần này giới thiệu tổng quan về chủ đề và mục tiêu của bài thuyết trình.</p>
+                </div>
+
+                <div id="than-bai" class="section-content">
+                    <h3>Phần thân bài</h3>
+                    <p>Nội dung thân bài sẽ được hiển thị ở đây. Phần này trình bày chi tiết các nội dung chính của bài thuyết trình, bao gồm các luận điểm và dẫn chứng.</p>
+                </div>
+
+                <div id="ket-bai" class="section-content">
+                    <h3>Phần kết bài</h3>
+                    <p>Nội dung kết bài sẽ được hiển thị ở đây. Phần này tóm tắt lại các điểm chính và đưa ra kết luận cho bài thuyết trình.</p>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        // Tạo các ngôi sao
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starsCount = 150;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Kích thước ngẫu nhiên
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Vị trí ngẫu nhiên
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                
+                // Tốc độ nhấp nháy ngẫu nhiên
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Mở/đóng submenu
+        function toggleSubmenu(element) {
+            const submenu = element.nextElementSibling;
+            const icon = element.querySelector('i.fa-chevron-down');
+            
+            if (submenu.classList.contains('open')) {
+                submenu.classList.remove('open');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Đóng tất cả các submenu khác
+                document.querySelectorAll('.submenu.open').forEach(item => {
+                    if (item !== submenu) {
+                        item.classList.remove('open');
+                        item.previousElementSibling.querySelector('i.fa-chevron-down').style.transform = 'rotate(0deg)';
+                    }
+                });
+                
+                submenu.classList.add('open');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+        
+        // Hiển thị bài thuyết trình
+        function showPresentation(subject, topic) {
+            const presentationArea = document.getElementById('presentation-area');
+            presentationArea.classList.add('active');
+            
+            // Ẩn tất cả các section
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Hiển thị section đầu tiên
+            document.getElementById('mo-bai').classList.add('active');
+            
+            // Reset các nút section
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('.section-btn').classList.add('active');
+            
+            // Cuộn đến khu vực thuyết trình
+            presentationArea.scrollIntoView({ behavior: 'smooth' });
+            
+            // Cập nhật nội dung dựa trên môn và chủ đề (trong thực tế, bạn sẽ tải nội dung từ server hoặc từ một nguồn dữ liệu)
+            updatePresentationContent(subject, topic);
+        }
+        
+        // Hiển thị section cụ thể
+        function showSection(sectionId) {
+            // Ẩn tất cả các section
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Hiển thị section được chọn
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Cập nhật trạng thái nút
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // Cập nhật nội dung bài thuyết trình (hàm mẫu)
+        function updatePresentationContent(subject, topic) {
+            // Trong thực tế, bạn sẽ tải nội dung từ server hoặc từ một nguồn dữ liệu
+            // Ở đây chúng ta chỉ cập nhật tiêu đề làm ví dụ
+            const titles = {
+                'mo-bai': `Mở bài: ${topic} trong ${subject}`,
+                'than-bai': `Thân bài: ${topic} trong ${subject}`,
+                'ket-bai': `Kết bài: ${topic} trong ${subject}`
+            };
+            
+            for (const section in titles) {
+                const header = document.querySelector(`#${section} h3`);
+                if (header) {
+                    header.textContent = titles[section];
+                }
+            }
+        }
+        
+        // Khởi tạo khi trang được tải
+        window.onload = function() {
+            createStars();
+        };
+    </script>
 </body>
 </html>
-        )";
-        return page;
-    });
-
-    // --- Viết luận ---
-    CROW_ROUTE(app, "/ngoaingu/vietluan")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viết Luận - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/ngoaingu" class="back-btn">← Môn Ngoại Ngữ</a>
-        <h1>Viết Luận</h1>
-        
-        <div class="content-section">
-            <h2>Kỹ năng viết luận</h2>
-            <p>Viết luận là kỹ năng trình bày ý kiến, quan điểm về một chủ đề nhất định một cách logic và thuyết phục bằng văn bản.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Cấu trúc bài luận cơ bản</h2>
-            <ul>
-                <li>Mở bài: Giới thiệu chủ đề và nêu luận điểm chính</li>
-                <li>Thân bài: Phát triển các luận điểm hỗ trợ với dẫn chứng</li>
-                <li>Kết bài: Tóm tắt ý chính và đưa ra kết luận</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== NHÓM MÔN VẬT LÝ ====================
-    // --- Quang học ---
-    CROW_ROUTE(app, "/vatly/quanghoc")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quang Học - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/vatly" class="back-btn">← Môn Vật Lý</a>
-        <h1>Quang Học</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm quang học</h2>
-            <p>Quang học là ngành vật lý nghiên cứu về ánh sáng, các tính chất của ánh sáng và tương tác của ánh sáng với vật chất.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các hiện tượng quang học cơ bản</h2>
-            <ul>
-                <li>Khúc xạ ánh sáng</li>
-                <li>Phản xạ ánh sáng</li>
-                <li>Khúc xạ và phản xạ toàn phần</li>
-                <li>Giao thoa ánh sáng</li>
-                <li>Nhiễu xạ ánh sáng</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // --- Điện học ---
-    CROW_ROUTE(app, "/vatly/dien")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Điện Học - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/vatly" class="back-btn">← Môn Vật Lý</a>
-        <h1>Điện Học</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm điện học</h2>
-            <p>Điện học là ngành vật lý nghiên cứu về các hiện tượng liên quan đến điện tích, dòng điện, điện trường và từ trường.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các khái niệm cơ bản</h2>
-            <ul>
-                <li>Điện tích và định luật Coulomb</li>
-                <li>Dòng điện và cường độ dòng điện</li>
-                <li>Điện trở và định luật Ohm</li>
-                <li>Điện năng và công suất điện</li>
-                <li>Từ trường và cảm ứng điện từ</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== NHÓM MÔN SINH HỌC ====================
-    // --- Tế bào ---
-    CROW_ROUTE(app, "/sinhhoc/tebao")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tế Bào - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/sinhhoc" class="back-btn">← Môn Sinh Học</a>
-        <h1>Tế Bào</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm tế bào</h2>
-            <p>Tế bào là đơn vị cấu trúc và chức năng cơ bản của mọi sinh vật. Mọi cơ thể sống đều được cấu tạo từ một hoặc nhiều tế bào.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Cấu trúc tế bào</h2>
-            <ul>
-                <li>Màng tế bào: Bao bọc và bảo vệ tế bào</li>
-                <li>Tế bào chất: Chứa các bào quan và là nơi diễn ra các phản ứng hóa học</li>
-                <li>Nhân tế bào: Chứa vật chất di truyền (DNA)</li>
-                <li>Các bào quan: Ti thể, lưới nội chất, bộ máy Golgi, ribosome, lysosome</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // --- Di truyền ---
-    CROW_ROUTE(app, "/sinhhoc/ditruyen")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Di Truyền - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/sinhhoc" class="back-btn">← Môn Sinh Học</a>
-        <h1>Di Truyền</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm di truyền</h2>
-            <p>Di truyền là hiện tượng truyền đạt các tính trạng của bố mẹ cho con cái thông qua vật chất di truyền (DNA).</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các quy luật di truyền</h2>
-            <ul>
-                <li>Quy luật phân li của Mendel</li>
-                <li>Quy luật phân li độc lập</li>
-                <li>Quy luật di truyền liên kết với giới tính</li>
-                <li>Quy luật di truyền ngoài nhân</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // --- Sinh thái ---
-    CROW_ROUTE(app, "/sinhhoc/sinhthai")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sinh Thái - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/sinhhoc" class="back-btn">← Môn Sinh Học</a>
-        <h1>Sinh Thái</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm sinh thái</h2>
-            <p>Sinh thái học là ngành khoa học nghiên cứu mối quan hệ giữa sinh vật với nhau và với môi trường xung quanh.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các cấp độ tổ chức sinh thái</h2>
-            <ul>
-                <li>Cá thể</li>
-                <li>Quần thể</li>
-                <li>Quần xã</li>
-                <li>Hệ sinh thái</li>
-                <li>Sinh quyển</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== NHÓM MÔN LỊCH SỬ ====================
-    // --- Lịch sử Việt Nam ---
-    CROW_ROUTE(app, "/lichsu/vietnam")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch Sử Việt Nam - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/lichsu" class="back-btn">← Môn Lịch Sử</a>
-        <h1>Lịch Sử Việt Nam</h1>
-        
-        <div class="content-section">
-            <h2>Các thời kỳ lịch sử Việt Nam</h2>
-            <ul>
-                <li>Thời kỳ dựng nước: Văn Lang - Âu Lạc</li>
-                <li>Thời kỳ Bắc thuộc và chống Bắc thuộc</li>
-                <li>Thời kỳ phong kiến độc lập: Đinh, Tiền Lê, Lý, Trần, Hồ, Lê, Nguyễn</li>
-                <li>Thời kỳ Pháp thuộc và đấu tranh giành độc lập</li>
-                <li>Thời kỳ hiện đại: từ 1945 đến nay</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // --- Lịch sử thế giới ---
-    CROW_ROUTE(app, "/lichsu/thegioi")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch Sử Thế Giới - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/lichsu" class="back-btn">← Môn Lịch Sử</a>
-        <h1>Lịch Sử Thế Giới</h1>
-        
-        <div class="content-section">
-            <h2>Các thời kỳ lịch sử thế giới</h2>
-            <ul>
-                <li>Thời kỳ cổ đại: Các nền văn minh sông Nile, Lưỡng Hà, Ấn Độ, Trung Hoa</li>
-                <li>Thời kỳ trung đại: Chế độ phong kiến, các đế quốc</li>
-                <li>Thời kỳ cận đại: Cách mạng công nghiệp, cách mạng tư sản</li>
-                <li>Thời kỳ hiện đại: Chiến tranh thế giới, chiến tranh lạnh, toàn cầu hóa</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // --- Văn hóa Đông Sơn ---
-    CROW_ROUTE(app, "/lichsu/vanhoadong")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Văn Hóa Đông Sơn - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/lichsu" class="back-btn">← Môn Lịch Sử</a>
-        <h1>Văn Hóa Đông Sơn</h1>
-        
-        <div class="content-section">
-            <h2>Khái quát về văn hóa Đông Sơn</h2>
-            <p>Văn hóa Đông Sơn là nền văn hóa khảo cổ học ở Việt Nam, tồn tại từ thế kỷ 7 TCN đến thế kỷ 1-2 SCN, gắn liền với thời kỳ dựng nước Văn Lang - Âu Lạc.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Đặc trưng văn hóa Đông Sơn</h2>
-            <ul>
-                <li>Kỹ thuật đúc đồng đỉnh cao với trống đồng Đông Sơn</li>
-                <li>Nông nghiệp trồng lúa nước phát triển</li>
-                <li>Xã hội có sự phân hóa giàu nghèo</li>
-                <li>Tín ngưỡng đa thần, thờ cúng tổ tiên</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== NHÓM MÔN ĐỊA LÝ ====================
-    // --- Địa lý tự nhiên ---
-    CROW_ROUTE(app, "/dialy/diali")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Địa Lý Tự Nhiên - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/dialy" class="back-btn">← Môn Địa Lý</a>
-        <h1>Địa Lý Tự Nhiên</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm địa lý tự nhiên</h2>
-            <p>Địa lý tự nhiên là ngành khoa học nghiên cứu các thành phần tự nhiên của Trái Đất và mối quan hệ giữa chúng.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các thành phần tự nhiên</h2>
-            <ul>
-                <li>Địa hình: núi, đồi, đồng bằng, cao nguyên</li>
-                <li>Khí hậu: nhiệt độ, lượng mưa, gió, áp suất</li>
-                <li>Thủy văn: sông, hồ, biển, đại dương</li>
-                <li>Thổ nhưỡng: các loại đất và tính chất</li>
-                <li>Sinh vật: thực vật và động vật</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // --- Dân cư ---
-    CROW_ROUTE(app, "/dialy/dancu")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dân Cư - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/dialy" class="back-btn">← Môn Địa Lý</a>
-        <h1>Dân Cư</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm dân cư</h2>
-            <p>Dân cư là toàn bộ những người sinh sống trên một lãnh thổ nhất định, được nghiên cứu về quy mô, cơ cấu, phân bố và chất lượng.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các chỉ số về dân cư</h2>
-            <ul>
-                <li>Mật độ dân số: số người trên một đơn vị diện tích</li>
-                <li>Tỷ lệ gia tăng dân số: tỷ lệ sinh, tử, nhập cư</li>
-                <li>Cơ cấu dân số: theo độ tuổi, giới tính, nghề nghiệp</li>
-                <li>Chất lượng dân số: trình độ học vấn, thu nhập, tuổi thọ</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // --- Môi trường ---
-    CROW_ROUTE(app, "/dialy/moitruong")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Môi Trường - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <a href="/dialy" class="back-btn">← Môn Địa Lý</a>
-        <h1>Môi Trường</h1>
-        
-        <div class="content-section">
-            <h2>Khái niệm môi trường</h2>
-            <p>Môi trường là toàn bộ các yếu tố tự nhiên và vật chất nhân tạo bao quanh con người, có ảnh hưởng đến đời sống, sản xuất, sự tồn tại và phát triển của con người và sinh vật.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các vấn đề môi trường toàn cầu</h2>
-            <ul>
-                <li>Biến đổi khí hậu và hiệu ứng nhà kính</li>
-                <li>Ô nhiễm không khí, nước và đất</li>
-                <li>Suy thoái tầng ozone</li>
-                <li>Suy giảm đa dạng sinh học</li>
-                <li>Sa mạc hóa và suy thoái đất</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== TRANG TỔNG QUAN MÔN HỌC ====================
-    // --- Trang tổng quan môn Toán ---
-    CROW_ROUTE(app, "/toan")([]() {
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Môn Toán - 9A2</title>
-    <style>...</style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Trang Chủ</a>
-        <h1>Môn Toán</h1>
-        
-        <div class="content-section">
-            <h2>Giới thiệu môn Toán</h2>
-            <p>Toán học là môn khoa học nghiên cứu về các con số, cấu trúc, không gian và các phép biến đổi. Toán học có ứng dụng rộng rãi trong nhiều lĩnh vực của đời sống và khoa học.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Các chuyên môn trong môn Toán</h2>
-            <ul>
-                <li><a href="/toan/daiso">Đại số</a> - Nghiên cứu về các phép toán và phương trình</li>
-                <li><a href="/toan/hinhhoc">Hình học</a> - Nghiên cứu về hình dạng và không gian</li>
-                <li><a href="/toan/thongke">Thống kê</a> - Nghiên cứu về thu thập và phân tích dữ liệu</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // Tạo các trang tổng quan tương tự cho các môn học khác
-    // (Ngữ văn, Ngoại ngữ, Vật lý, Sinh học, Lịch sử, Địa lý)
-
-    // ==================== CHẠY ỨNG DỤNG ====================
-    app.port(10000).multithreaded().run();
-}
