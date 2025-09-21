@@ -111,7 +111,7 @@ public:
         <aside class="sidebar">
             <div class="logo">
                 <i class="moon-icon">🌙</i>
-                <span>Vũ Trụ Văn Học</span>
+                <span>9A2</span>
             </div>
             <nav class="menu">
                 <div class="menu-section">
@@ -125,14 +125,14 @@ public:
                 </div>
                 
                 <div class="sub-menu" id="van-hoc-submenu">
-                    <h3>Kiểu bài Văn</h3>
+                    <h3>bài thuyết trình :</h3>
                     <ul>
-                        <li data-content="phat-bieu-cam-nghi" class="active">Phát biểu cảm nghĩ</li>
-                        <li data-content="phan-tich-tac-pham">Phân tích tác phẩm</li>
-                        <li data-content="nghi-luan-xa-hoi">Nghị luận xã hội</li>
-                        <li data-content="thuyet-minh">Thuyết minh</li>
-                        <li data-content="tu-su">Tự sự</li>
-                        <li data-content="mieu-ta">Miêu tả</li>
+                        <li data-content="bai-1" class="active">text</li>
+                        <li data-content="bai-2">text</li>
+                        <li data-content="bai-3">text</li>
+                        <li data-content="bai-4">text</li>
+                        <li data-content="bai-5">text</li>
+                        <li data-content="bai-6">text</li>
                     </ul>
                 </div>
             </nav>
@@ -143,16 +143,16 @@ public:
                 <h1>Văn Học Việt Nam</h1>
                 <div class="card-grid">
                     <div class="card">
-                        <h3>Truyện Kiều</h3>
-                        <p>Nguyễn Du - Tác phẩm kinh điển</p>
+                        <h3>chuyện người con gái nam xương</h3>
+                        <p>Nguyễn Dữ - tác phẩm kinh điển</p>
                     </div>
                     <div class="card">
-                        <h3>Chí Phèo</h3>
-                        <p>Nam Cao - Hiện thực phê phán</p>
+                        <h3>Dế chọi</h3>
+                        <p>Bồ Tùng Linh - Hiện thực phê phán</p>
                     </div>
                     <div class="card">
-                        <h3>Vợ Nhặt</h3>
-                        <p>Kim Lân - Văn học hiện đại</p>
+                        <h3>Sơn Tinh - thủy tinh</h3>
+                        <p>Nguyễn Nhược Pháp - Văn học hiện đại</p>
                     </div>
                 </div>
             </div>
