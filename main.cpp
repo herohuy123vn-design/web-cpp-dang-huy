@@ -1,614 +1,508 @@
-#include "crow.h"
+#include <iostream>
+#include <string>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <fstream>
+#include <sstream>
+#include <vector>
 
-int main()
-{
-    crow::SimpleApp app;
+class WebServer {
+private:
+    int server_fd;
+    int port;
+    
+    std::string readFile(const std::string& path) {
+        std::ifstream file(path);
+        if (!file.is_open()) {
+            return "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\nFile not found";
+        }
+        
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();
+    }
+    
+    std::string getContentType(const std::string& path) {
+        if (path.find(".css") != std::string::npos) return "text/css";
+        if (path.find(".js") != std::string::npos) return "application/javascript";
+        if (path.find(".png") != std::string::npos) return "image/png";
+        if (path.find(".jpg") != std::string::npos) return "image/jpeg";
+        if (path.find(".ico") != std::string::npos) return "image/x-icon";
+        return "text/html";
+    }
 
-    // ==================== TRANG CHỦ ====================
-    CROW_ROUTE(app, "/")([](){
-        auto page = R"(
+public:
+    WebServer(int port = 8080) : port(port), server_fd(-1) {}
+    
+    ~WebServer() {
+        if (server_fd != -1) {
+            close(server_fd);
+        }
+    }
+    
+    bool start() {
+        // Tạo socket
+        server_fd = socket(AF_INET, SOCK_STREAM, 0);
+        if (server_fd < 0) {
+            std::cerr << "Không thể tạo socket" << std::endl;
+            return false;
+        }
+        
+        // Cấu hình socket
+        int opt = 1;
+        if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
+            std::cerr << "Lỗi setsockopt" << std::endl;
+            return false;
+        }
+        
+        // Bind socket
+        struct sockaddr_in address;
+        address.sin_family = AF_INET;
+        address.sin_addr.s_addr = INADDR_ANY;
+        address.sin_port = htons(port);
+        
+        if (bind(server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
+            std::cerr << "Bind failed" << std::endl;
+            return false;
+        }
+        
+        // Listen
+        if (listen(server_fd, 10) < 0) {
+            std::cerr << "Listen failed" << std::endl;
+            return false;
+        }
+        
+        std::cout << "Server đang chạy trên cổng " << port << std::endl;
+        return true;
+    }
+    
+    void handleRequests() {
+        while (true) {
+            struct sockaddr_in client_addr;
+            socklen_t client_len = sizeof(client_addr);
+            int client_socket = accept(server_fd, (struct sockaddr*)&client_addr, &client_len);
+            
+            if (client_socket < 0) {
+                std::cerr << "Chấp nhận kết nối thất bại" << std::endl;
+                continue;
+            }
+            
+            // Đọc request
+            char buffer[1024] = {0};
+            read(client_socket, buffer, 1024);
+            
+            std::string request(buffer);
+            std::string response;
+            
+            // Xử lý request
+            if (request.find("GET / ") != std::string::npos || 
+                request.find("GET /index.html") != std::string::npos) {
+                response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n" + generateHTML();
+            } else if (request.find("GET /style.css") != std::string::npos) {
+                response = "HTTP/1.1 200 OK\r\nContent-Type: text/css\r\n\r\n" + generateCSS();
+            } else {
+                response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\n404 Not Found";
+            }
+            
+            // Gửi response
+            send(client_socket, response.c_str(), response.length(), 0);
+            close(client_socket);
+        }
+    }
+    
+    std::string generateHTML() {
+        return R"(
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài Thuyết Trình - Web C++</title>
+    <title>Không Gian Mặt Trăng - Trình Bày Môn Văn</title>
     <style>
+        )" + generateCSS() + R"(
+    </style>
+</head>
+<body>
+    <div id="stars"></div>
+    <div id="moon"></div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="moon-icon">🌙</i>
+                <span>Vũ Trụ Văn Học</span>
+            </div>
+            <nav class="menu">
+                <div class="menu-section">
+                    <h3>Môn học</h3>
+                    <ul>
+                        <li class="active" data-content="van-hoc">
+                            <i class="icon">📚</i>
+                            <span>Văn Học</span>
+                        </li>
+                        <li data-content="toan-hoc">
+                            <i class="icon">🧮</i>
+                            <span>Toán Học</span>
+                        </li>
+                        <li data-content="lich-su">
+                            <i class="icon">🏛️</i>
+                            <span>Lịch Sử</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="sub-menu" id="van-hoc-submenu">
+                    <h3>Bài tập Văn Học</h3>
+                    <ul>
+                        <li data-content="mo-bai">Mở bài</li>
+                        <li data-content="than-bai">Thân bài</li>
+                        <li data-content="ket-bai">Kết bài</li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <div class="content-section active" id="van-hoc">
+                <h1>Văn Học Việt Nam</h1>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Truyện Kiều</h3>
+                        <p>Nguyễn Du</p>
+                    </div>
+                    <div class="card">
+                        <h3>Chí Phèo</h3>
+                        <p>Nam Cao</p>
+                    </div>
+                    <div class="card">
+                        <h3>Vợ Nhặt</h3>
+                        <p>Kim Lân</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="mo-bai">
+                <h1>Mở Bài</h1>
+                <div class="presentation-content">
+                    <p>Phần mở bài giới thiệu tổng quan về tác phẩm, tác giả và vấn đề cần phân tích.</p>
+                </div>
+            </div>
+
+            <div class="content-section" id="than-bai">
+                <h1>Thân Bài</h1>
+                <div class="presentation-content">
+                    <p>Phần thân bài triển khai các luận điểm, phân tích chi tiết tác phẩm.</p>
+                </div>
+            </div>
+
+            <div class="content-section" id="ket-bai">
+                <h1>Kết Bài</h1>
+                <div class="presentation-content">
+                    <p>Phần kết bài tổng kết lại vấn đề và nêu cảm nghĩ về tác phẩm.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý chuyển đổi menu
+            const menuItems = document.querySelectorAll('.menu li');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const contentId = this.getAttribute('data-content');
+                    
+                    // Ẩn tất cả nội dung
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Hiển thị nội dung được chọn
+                    document.getElementById(contentId).classList.add('active');
+                    
+                    // Cập nhật menu active
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hiển thị submenu nếu là môn Văn
+                    if (contentId === 'van-hoc') {
+                        document.getElementById('van-hoc-submenu').style.display = 'block';
+                    } else {
+                        document.getElementById('van-hoc-submenu').style.display = 'none';
+                    }
+                });
+            });
+            
+            // Tạo hiệu ứng sao
+            const stars = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                stars.appendChild(star);
+            }
+        });
+    </script>
+</body>
+</html>
+        )";
+    }
+    
+    std::string generateCSS() {
+        return R"(
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            display: flex;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a2a, #1a1a40, #0a0a2a);
+            color: #e0e0ff;
             min-height: 100vh;
-            background: 
-                radial-gradient(circle at 85% 15%, rgba(224, 247, 255, 0.8) 0%, transparent 25%),
-                radial-gradient(circle at 15% 85%, rgba(200, 230, 255, 0.4) 0%, transparent 25%),
-                linear-gradient(135deg, #000000 0%, #0a0a2a 30%, #1a1a4a 70%, #2c2c6e 100%);
-            position: relative;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Hiệu ứng mặt trăng */
-        .moon {
+        #stars {
             position: fixed;
-            top: 80px;
-            right: 80px;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, #e6f0ff 0%, #b3d9ff 30%, #99ccff 70%);
-            border-radius: 50%;
-            box-shadow: 
-                0 0 60px rgba(179, 217, 255, 0.8),
-                0 0 100px rgba(179, 217, 255, 0.4),
-                0 0 150px rgba(179, 217, 255, 0.2);
-            z-index: 1;
-            animation: glow 3s ease-in-out infinite alternate;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
-        @keyframes glow {
-            from { box-shadow: 0 0 60px rgba(179, 217, 255, 0.8); }
-            to { box-shadow: 0 0 80px rgba(179, 217, 255, 1); }
-        }
-
-        /* Hiệu ứng ngôi sao */
         .star {
             position: absolute;
-            background: white;
+            background-color: white;
             border-radius: 50%;
             animation: twinkle 5s infinite;
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
+            0%, 100% { opacity: 0.2; }
             50% { opacity: 1; }
         }
 
-        /* Sidebar Menu */
-        .sidebar {
-            width: 250px;
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 20px;
+        #moon {
             position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 2;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            top: 50px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #f0f0ff 10%, #a0a0c0 60%);
+            border-radius: 50%;
+            box-shadow: 0 0 50px #f0f0ff, 0 0 100px #a0a0c0;
+            z-index: -1;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 10, 40, 0.8);
             backdrop-filter: blur(10px);
+            padding: 20px;
+            border-right: 1px solid rgba(100, 100, 255, 0.2);
+            display: flex;
+            flex-direction: column;
         }
-        
-        .sidebar h2 {
-            text-align: center;
+
+        .logo {
+            display: flex;
+            align-items: center;
             margin-bottom: 30px;
-            color: #99ccff;
-            text-shadow: 0 0 10px rgba(153, 204, 255, 0.7);
             font-size: 1.5rem;
+            font-weight: bold;
+            color: #a0a0ff;
         }
-        
-        .menu-item {
-            padding: 15px;
-            margin: 10px 0;
-            background: rgba(255, 255, 255, 0.1);
+
+        .moon-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        .menu-section {
+            margin-bottom: 30px;
+        }
+
+        .menu-section h3 {
+            color: #8080ff;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu ul {
+            list-style: none;
+        }
+
+        .menu li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-decoration: none;
-            color: white;
-            display: block;
-            text-align: center;
+            display: flex;
+            align-items: center;
         }
-        
-        .menu-item:hover {
-            background: rgba(153, 204, 255, 0.3);
+
+        .menu li:hover {
+            background: rgba(100, 100, 255, 0.2);
             transform: translateX(5px);
-            box-shadow: 0 0 15px rgba(153, 204, 255, 0.4);
-            color: #e6f0ff;
         }
-        
-        /* Main Content */
+
+        .menu li.active {
+            background: rgba(100, 100, 255, 0.3);
+            box-shadow: 0 0 15px rgba(100, 100, 255, 0.5);
+        }
+
+        .icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .sub-menu {
+            display: block;
+            margin-top: 20px;
+        }
+
+        .sub-menu li {
+            padding-left: 40px;
+            font-size: 0.9rem;
+        }
+
         .content {
             flex: 1;
-            margin-left: 250px;
-            padding: 40px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 20px;
-        }
-        
-        .card {
-            background: rgba(30, 30, 60, 0.7);
             padding: 30px;
+            overflow-y: auto;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #a0a0ff;
+            text-shadow: 0 0 10px rgba(160, 160, 255, 0.5);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: rgba(20, 20, 50, 0.7);
             border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s ease;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(100, 100, 255, 0.2);
             cursor: pointer;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
         }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #99ccff, transparent);
-            transform: translateX(-100%);
-            transition: transform 0.5s ease;
-        }
-        
+
         .card:hover {
-            transform: scale(1.08) translateY(-5px);
-            box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(153, 204, 255, 0.3);
-            background: rgba(40, 40, 80, 0.9);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(100, 100, 255, 0.5);
+            background: rgba(30, 30, 70, 0.8);
         }
-        
-        .card:hover::before {
-            transform: translateX(100%);
-        }
-        
+
         .card h3 {
-            color: #b3d9ff;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-            text-shadow: 0 0 10px rgba(179, 217, 255, 0.5);
+            color: #c0c0ff;
+            margin-bottom: 10px;
         }
-        
+
         .card p {
-            color: #ccddff;
-            line-height: 1.6;
-            font-size: 1rem;
+            color: #a0a0c0;
+            font-size: 0.9rem;
         }
-        
-        /* Hiệu ứng khoảng cách với mặt trăng */
-        .card:nth-child(1) { transition-delay: 0.1s; }
-        .card:nth-child(2) { transition-delay: 0.2s; }
-        .card:nth-child(3) { transition-delay: 0.3s; }
-        .card:nth-child(4) { transition-delay: 0.4s; }
-        
-        /* Responsive */
+
+        .presentation-content {
+            background: rgba(20, 20, 50, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            border: 1px solid rgba(100, 100, 255, 0.2);
+        }
+
+        .presentation-content p {
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive design */
         @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
             .sidebar {
                 width: 100%;
-                height: auto;
-                position: relative;
-                margin-bottom: 20px;
+                border-right: none;
+                border-bottom: 1px solid rgba(100, 100, 255, 0.2);
             }
             
-            .content {
-                margin-left: 0;
-                padding: 20px;
-            }
-            
-            .moon {
+            #moon {
                 top: 20px;
                 right: 20px;
-                width: 80px;
-                height: 80px;
+                width: 60px;
+                height: 60px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
             }
         }
-    </style>
-</head>
-<body>
-    <!-- Hiệu ứng mặt trăng -->
-    <div class="moon"></div>
+        )";
+    }
+};
+
+int main() {
+    WebServer server(8080);
     
-    <!-- Hiệu ứng ngôi sao -->
-    <script>
-        for (let i = 0; i < 50; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.width = Math.random() * 3 + 'px';
-            star.style.height = star.style.width;
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 5 + 's';
-            document.body.appendChild(star);
-        }
-    </script>
-
-    <!-- Sidebar Menu -->
-    <div class="sidebar">
-        <h2>🌙 Bài Thuyết Trình</h2>
-        <a href="/" class="menu-item">🏠 Trang Chủ</a>
-        <a href="/phan1" class="menu-item">📊 Phần 1: Giới Thiệu</a>
-        <a href="/phan2" class="menu-item">🔧 Phần 2: Công Nghệ</a>
-        <a href="/phan3" class="menu-item">🚀 Phần 3: Demo</a>
-        <a href="/phan4" class="menu-item">🎯 Phần 4: Kết Luận</a>
-        <a href="/lienhe" class="menu-item">📞 Liên Hệ</a>
-    </div>
-
-    <!-- Main Content -->
-    <div class="content">
-        <div class="grid-container">
-            <div class="card">
-                <h3>Chào mừng đến Bài Thuyết Trình</h3>
-                <p>Ứng dụng web server viết bằng C++ với Crow framework</p>
-            </div>
-            
-            <div class="card">
-                <h3>Mục Tiêu</h3>
-                <p>Trình bày về khả năng lập trình web bằng ngôn ngữ C++</p>
-            </div>
-            
-            <div class="card">
-                <h3>Công Nghệ</h3>
-                <p>Sử dụng Crow framework, Docker, và Render để deploy</p>
-            </div>
-            
-            <div class="card">
-                <h3>Đặc Điểm</h3>
-                <p>Hiệu suất cao, giao diện hiện đại, responsive design</p>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== TRANG PHẦN 1 ====================
-    CROW_ROUTE(app, "/phan1")([](){
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần 1: Giới Thiệu</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
-            color: white;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(30, 30, 60, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            color: #99ccff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            background: rgba(153, 204, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: rgba(153, 204, 255, 0.5);
-            transform: translateX(-5px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Phần 1: Giới Thiệu</h1>
-        <p>Nội dung chi tiết cho phần giới thiệu bài thuyết trình...</p>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== TRANG PHẦN 2 ====================
-    CROW_ROUTE(app, "/phan2")([](){
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần 2: Công Nghệ</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
-            color: white;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(30, 30, 60, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            color: #99ccff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            background: rgba(153, 204, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: rgba(153, 204, 255, 0.5);
-            transform: translateX(-5px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Phần 2: Công Nghệ</h1>
-        <p>Nội dung về các công nghệ sử dụng trong dự án...</p>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== TRANG PHẦN 3 ====================
-    CROW_ROUTE(app, "/phan3")([](){
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần 3: Demo</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
-            color: white;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(30, 30, 60, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            color: #99ccff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            background: rgba(153, 204, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: rgba(153, 204, 255, 0.5);
-            transform: translateX(-5px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Phần 3: Demo</h1>
-        <p>Demo trực tiếp ứng dụng web server C++...</p>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== TRANG PHẦN 4 ====================
-    CROW_ROUTE(app, "/phan4")([](){
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần 4: Kết Luận</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
-            color: white;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(30, 30, 60, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            color: #99ccff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            background: rgba(153, 204, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: rgba(153, 204, 255, 0.5);
-            transform: translateX(-5px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Phần 4: Kết Luận</h1>
-        <p>Kết luận và hướng phát triển tương lai...</p>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    // ==================== TRANG LIÊN HỆ ====================
-    CROW_ROUTE(app, "/lienhe")([](){
-        auto page = R"(
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liên Hệ</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a4a 100%);
-            color: white;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(30, 30, 60, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            color: #99ccff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            background: rgba(153, 204, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: rgba(153, 204, 255, 0.5);
-            transform: translateX(-5px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="/" class="back-btn">← Quay lại Trang Chủ</a>
-        <h1>Liên Hệ</h1>
-        <p>Thông tin liên hệ và hỗ trợ...</p>
-    </div>
-</body>
-</html>
-        )";
-        return page;
-    });
-
-    app.port(10000).multithreaded().run();
+    if (!server.start()) {
+        return 1;
+    }
+    
+    std::cout << "Web server đang chạy tại http://localhost:8080" << std::endl;
+    std::cout << "Nhấn Ctrl+C để dừng server" << std::endl;
+    
+    server.handleRequests();
+    
+    return 0;
 }
