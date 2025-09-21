@@ -125,7 +125,7 @@ public:
                 </div>
                 
                 <div class="sub-menu" id="van-hoc-submenu">
-                    <h3>bài thuyết trình :</h3>
+                    <h3>bài thuyết trình:</h3>
                     <ul>
                         <li data-content="bai-1" class="active">Phát biểu cảm nghĩ</li>
                         <li data-content="bai-2">text</li>
