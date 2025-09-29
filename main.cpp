@@ -13,6 +13,9 @@ private:
     int port;
     
 public:
+    // Thêm getter method
+    int getPort() const { return port; }
+    
     WebServer() {
         const char* env_port = std::getenv("PORT");
         port = env_port ? std::atoi(env_port) : 8080;
@@ -659,7 +662,8 @@ int main() {
         return 1;
     }
     
-    std::cout << "Web server Nghị Luận Văn Học đang chạy tại http://localhost:" << port << std::endl;
+    // SỬA LỖI Ở ĐÂY - dùng getter method
+    std::cout << "Web server Nghị Luận Văn Học đang chạy tại http://localhost:" << server.getPort() << std::endl;
     std::cout << "Nhấn Ctrl+C để dừng server" << std::endl;
     
     server.handleRequests();
