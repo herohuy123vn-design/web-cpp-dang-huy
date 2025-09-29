@@ -13,7 +13,11 @@ private:
     int port;
     
 public:
-    WebServer() : port(10000), server_fd(-1) {}
+    WebServer() {
+        const char* env_port = std::getenv("PORT");
+        port = env_port ? std::atoi(env_port) : 8080;
+        server_fd = -1;
+    }
     
     ~WebServer() {
         if (server_fd != -1) {
@@ -98,7 +102,7 @@ public:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vũ Trụ Văn Học - Không Gian Mặt Trăng</title>
+    <title>Vũ Trụ Văn Học - Nghị Luận</title>
     <style>
         )" + generateCSS() + R"(
     </style>
@@ -111,150 +115,213 @@ public:
         <aside class="sidebar">
             <div class="logo">
                 <i class="moon-icon">🌙</i>
-                <span>9A2</span>
+                <span>Vũ Trụ Văn Học</span>
             </div>
             <nav class="menu">
                 <div class="menu-section">
-                    <h3>Môn học</h3>
+                    <h3>Kiểu bài Văn</h3>
                     <ul>
-                        <li class="active" data-content="van-hoc">
-                            <i class="icon">📚</i>
-                            <span>Văn Học</span>
+                        <li class="active" data-content="nghi-luan-xa-hoi">
+                            <i class="icon">🏛️</i>
+                            <span>Nghị luận xã hội</span>
                         </li>
-                    </ul>
-                </div>
-                
-                <div class="sub-menu" id="van-hoc-submenu">
-                    <h3>bài thuyết trình:</h3>
-                    <ul>
-                        <li data-content="phat-bieu-cam-nghi" class="active">Phát biểu cảm nghĩ</li>
-                        <li data-content="bai-2">text</li>
-                        <li data-content="bai-3">text</li>
-                        <li data-content="bai-4">text</li>
-                        <li data-content="bai-5">text</li>
-                        <li data-content="bai-6">text</li>
+                        <li data-content="nghi-luan-van-hoc">
+                            <i class="icon">📚</i>
+                            <span>Nghị luận văn học</span>
+                        </li>
                     </ul>
                 </div>
             </nav>
         </aside>
 
         <main class="content">
-            <div class="content-section active" id="van-hoc">
-                <h1>Văn Học Việt Nam</h1>
-                <div class="card-grid">
-                    <div class="card">
-                        <h3>chuyện người con gái nam xương</h3>
-                        <p>Nguyễn Dữ - tác phẩm kinh điển</p>
-                    </div>
-                    <div class="card">
-                        <h3>Dế chọi</h3>
-                        <p>Bồ Tùng Linh - Hiện thực phê phán</p>
-                    </div>
-                    <div class="card">
-                        <h3>Sơn Tinh - thủy tinh</h3>
-                        <p>Nguyễn Nhược Pháp - Văn học hiện đại</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-section" id="phat-bieu-cam-nghi">
-                <h1>Phát biểu cảm nghĩ</h1>
+            <!-- Nghị luận xã hội -->
+            <div class="content-section active" id="nghi-luan-xa-hoi">
+                <h1>Nghị Luận Xã Hội</h1>
                 <div class="presentation-content">
                     <div class="writing-part">
                         <h2><i class="part-icon">✨</i> Mở bài</h2>
-                        <p>Giới thiệu về đối tượng và nêu cảm nghĩ chung. Phần mở bài cần tạo được ấn tượng và dẫn dắt người đọc vào nội dung.</p>
-                        <div class="example">
-                            <h3>Ví dụ:</h3>
-                            <p>"Mỗi khi đọc lại những trang thơ của Xuân Diệu, lòng tôi lại dâng trào một cảm xúc khó tả. Nhà thơ của tình yêu và tuổi trẻ ấy đã để lại cho đời những vần thơ đẹp như những đóa hoa ngát hương..."</p>
-                        </div>
-                    </div>
-                    
-                    <div class="writing-part">
-                        <h2><i class="part-icon">📖</i> Thân bài</h2>
-                        <p>Triển khai các luận điểm về đối tượng, nêu cảm xúc, suy nghĩ chi tiết. Có thể sắp xếp theo trình tự từ khái quát đến cụ thể.</p>
-                        <div class="example">
-                            <h3>Bố cục thân bài:</h3>
+                        <div class="writing-detail">
+                            <h3>Mục đích:</h3>
+                            <p>Dẫn dắt vào vấn đề xã hội cần nghị luận</p>
+                            
+                            <h3>Cách viết:</h3>
                             <ul>
-                                <li>Biểu cảm về ngoại hình, đặc điểm</li>
-                                <li>Biểu cảm về tính cách, phẩm chất</li>
-                                <li>Biểu cảm về kỷ niệm, tác động</li>
-                                <li>Suy nghĩ, đánh giá về đối tượng</li>
+                                <li>Giới thiệu vấn đề một cách tự nhiên</li>
+                                <li>Nêu tính thời sự, ý nghĩa của vấn đề</li>
+                                <li>Trích dẫn câu nói, nhận định (nếu có)</li>
+                                <li>Dẫn dắt vào thân bài</li>
                             </ul>
+                            
+                            <div class="example">
+                                <h3>Ví dụ mở bài:</h3>
+                                <p>"Trong xã hội hiện đại ngày nay, vấn đề ô nhiễm môi trường đang trở thành mối quan tâm hàng đầu của toàn nhân loại. Sự phát triển kinh tế nhanh chóng đã kéo theo những hệ lụy nghiêm trọng về môi trường, đòi hỏi chúng ta phải có những hành động thiết thực để bảo vệ ngôi nhà chung của nhân loại."</p>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="writing-part">
-                        <h2><i class="part-icon">🎯</i> Kết bài</h2>
-                        <p>Khái quát lại cảm nghĩ và nêu những suy ngẫm, bài học rút ra. Phần kết bài nên để lại ấn tượng sâu sắc trong lòng người đọc.</p>
-                        <div class="example">
-                            <h3>Ví dụ:</h3>
-                            <p>"Cảm ơn nhà thơ Xuân Diệu đã mang đến cho chúng ta một thế giới nghệ thuật đầy màu sắc. Những vần thơ ấy sẽ mãi đồng hành cùng bao thế hệ bạn đọc, khơi gợi trong họ tình yêu với cuộc sống và vẻ đẹp của ngôn từ..."</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-section" id="phan-tich-tac-pham">
-                <h1>Phân tích tác phẩm</h1>
-                <div class="presentation-content">
-                    <div class="writing-part">
-                        <h2><i class="part-icon">✨</i> Mở bài</h2>
-                        <p>Giới thiệu tác giả, tác phẩm và vấn đề cần phân tích. Nêu khái quát giá trị và vị trí của tác phẩm trong nền văn học.</p>
                     </div>
                     
                     <div class="writing-part">
                         <h2><i class="part-icon">📖</i> Thân bài</h2>
-                        <p>Phân tích các khía cạnh của tác phẩm: nội dung, nghệ thuật, giá trị tư tưởng, các biện pháp tu từ, hình tượng nghệ thuật...</p>
-                        <div class="example">
-                            <h3>Các bước phân tích:</h3>
-                            <ul>
-                                <li>Phân tích hình tượng nhân vật</li>
-                                <li>Phân tích tình huống truyện</li>
-                                <li>Phân tích giá trị nội dung</li>
-                                <li>Phân tích giá trị nghệ thuật</li>
-                                <li>Đánh giá ý nghĩa tư tưởng</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="writing-part">
-                        <h2><i class="part-icon">🎯</i> Kết bài</h2>
-                        <p>Khẳng định lại giá trị của tác phẩm và ý nghĩa của việc phân tích. Nêu cảm nghĩ về tầm ảnh hưởng của tác phẩm.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-section" id="nghi-luan-xa-hoi">
-                <h1>Nghị luận xã hội</h1>
-                <div class="presentation-content">
-                    <div class="writing-part">
-                        <h2><i class="part-icon">✨</i> Mở bài</h2>
-                        <p>Dẫn dắt vào vấn đề xã hội cần nghị luận, nêu tính thời sự và tầm quan trọng của vấn đề.</p>
-                    </div>
-                    
-                    <div class="writing-part">
-                        <h2><i class="part-icon">📖</i> Thân bài</h2>
-                        <p>Giải thích, phân tích, chứng minh và bàn luận về vấn đề xã hội. Đưa ra các dẫn chứng thuyết phục.</p>
-                        <div class="example">
+                        <div class="writing-detail">
                             <h3>Các bước triển khai:</h3>
-                            <ul>
-                                <li>Giải thích khái niệm, thuật ngữ</li>
-                                <li>Phân tích các khía cạnh của vấn đề</li>
-                                <li>Bàn luận mở rộng vấn đề</li>
-                                <li>Đưa ra dẫn chứng thực tế</li>
-                                <li>Rút ra bài học nhận thức</li>
-                            </ul>
+                            <ol>
+                                <li>
+                                    <strong>Giải thích vấn đề:</strong>
+                                    <ul>
+                                        <li>Làm rõ các khái niệm, thuật ngữ</li>
+                                        <li>Giải thích ý nghĩa của vấn đề</li>
+                                        <li>Nêu biểu hiện cụ thể</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Phân tích vấn đề:</strong>
+                                    <ul>
+                                        <li>Nguyên nhân, nguồn gốc phát sinh</li>
+                                        <li>Tác động tích cực/tiêu cực</li>
+                                        <li>Thực trạng hiện nay</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Chứng minh:</strong>
+                                    <ul>
+                                        <li>Đưa dẫn chứng thuyết phục</li>
+                                        <li>Số liệu, sự kiện cụ thể</li>
+                                        <li>Ví dụ thực tế</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Bàn luận mở rộng:</strong>
+                                    <ul>
+                                        <li>So sánh với vấn đề khác</li>
+                                        <li>Đánh giá các quan điểm</li>
+                                        <li>Phản đề (nếu cần)</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Bài học nhận thức:</strong>
+                                    <ul>
+                                        <li>Rút ra bài học</li>
+                                        <li>Đề xuất giải pháp</li>
+                                        <li>Phương hướng hành động</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                            
+                            <div class="example">
+                                <h3>Ví dụ phân tích:</h3>
+                                <p>"Ô nhiễm môi trường bắt nguồn từ nhiều nguyên nhân: sự thiếu ý thức của con người, sự phát triển công nghiệp ồ ạt, hệ thống xử lý rác thải chưa hiệu quả... Theo thống kê, mỗi năm thế giới thải ra hơn 2 tỷ tấn rác thải, trong đó chỉ 16% được tái chế."</p>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="writing-part">
                         <h2><i class="part-icon">🎯</i> Kết bài</h2>
-                        <p>Khẳng định lại ý nghĩa của vấn đề, nêu giải pháp và liên hệ bản thân.</p>
+                        <div class="writing-detail">
+                            <h3>Yêu cầu:</h3>
+                            <ul>
+                                <li>Khẳng định lại tầm quan trọng của vấn đề</li>
+                                <li>Tóm tắt những ý chính đã trình bày</li>
+                                <li>Nêu giải pháp, kiến nghị</li>
+                                <li>Liên hệ bản thân và rút ra bài học</li>
+                            </ul>
+                            
+                            <div class="example">
+                                <h3>Ví dụ kết bài:</h3>
+                                <p>"Như vậy, bảo vệ môi trường không chỉ là trách nhiệm của các tổ chức, chính phủ mà còn là nghĩa vụ của mỗi cá nhân. Bằng những hành động nhỏ nhất như phân loại rác, tiết kiệm điện nước, chúng ta đang góp phần xây dựng một tương lai xanh - sạch - đẹp cho thế hệ mai sau."</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Các phần khác tương tự -->
+            <!-- Nghị luận văn học -->
+            <div class="content-section" id="nghi-luan-van-hoc">
+                <h1>Nghị Luận Văn Học</h1>
+                <div class="presentation-content">
+                    <div class="writing-part">
+                        <h2><i class="part-icon">✨</i> Mở bài</h2>
+                        <div class="writing-detail">
+                            <h3>Mục đích:</h3>
+                            <p>Giới thiệu tác giả, tác phẩm và vấn đề nghị luận</p>
+                            
+                            <h3>Cách viết:</h3>
+                            <ul>
+                                <li>Giới thiệu tác giả và hoàn cảnh sáng tác</li>
+                                <li>Nêu tên tác phẩm và vị trí trong sự nghiệp</li>
+                                <li>Dẫn dắt vào vấn đề cần nghị luận</li>
+                                <li>Trích dẫn nhận định (nếu có)</li>
+                            </ul>
+                            
+                            <div class="example">
+                                <h3>Ví dụ mở bài:</h3>
+                                <p>"Nguyễn Du - đại thi hào của dân tộc Việt Nam, đã để lại cho kho tàng văn học nước nhà kiệt tác 'Truyện Kiều'. Tác phẩm không chỉ là bức tranh hiện thực về xã hội phong kiến mà còn là tiếng lòng thương cảm cho số phận người phụ nữ. Trong đó, nhân vật Thúy Kiều hiện lên như một biểu tượng của cái đẹp và nỗi đau."</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="writing-part">
+                        <h2><i class="part-icon">📖</i> Thân bài</h2>
+                        <div class="writing-detail">
+                            <h3>Các hướng triển khai:</h3>
+                            
+                            <div class="method">
+                                <h4>1. Phân tích nhân vật:</h4>
+                                <ul>
+                                    <li><strong>Ngoại hình:</strong> Miêu tả, so sánh</li>
+                                    <li><strong>Tính cách:</strong> Phẩm chất, đức tính</li>
+                                    <li><strong>Số phận:</strong> Bi kịch, thành công</li>
+                                    <li><strong>Diễn biến tâm lý:</strong> Cảm xúc, suy nghĩ</li>
+                                    <li><strong>Ý nghĩa nhân vật:</strong> Đại diện, biểu tượng</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="method">
+                                <h4>2. Phân tích đoạn trích/tác phẩm:</h4>
+                                <ul>
+                                    <li><strong>Nội dung:</strong> Chủ đề, tư tưởng</li>
+                                    <li><strong>Nghệ thuật:</strong> Ngôn ngữ, hình ảnh</li>
+                                    <li><strong>Biện pháp tu từ:</strong> So sánh, ẩn dụ, hoán dụ...</li>
+                                    <li><strong>Kết cấu:</strong> Bố cục, trình tự</li>
+                                    <li><strong>Giá trị:</strong> Nhân đạo, hiện thực</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="method">
+                                <h4>3. Phân tích giá trị tác phẩm:</h4>
+                                <ul>
+                                    <li><strong>Giá trị nhân đạo:</strong> Tình thương, lòng vị tha</li>
+                                    <li><strong>Giá trị hiện thực:</strong> Bức tranh xã hội</li>
+                                    <li><strong>Giá trị nghệ thuật:</strong> Ngôn ngữ, kết cấu</li>
+                                    <li><strong>Thông điệp:</strong> Bài học, triết lý</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="example">
+                                <h3>Ví dụ phân tích nhân vật:</h3>
+                                <p>"Thúy Kiều không chỉ đẹp về ngoại hình 'Làn thu thủy nét xuân sơn' mà còn đẹp về tâm hồn và tài năng. Nàng là hiện thân của cái đẹp toàn diện: 'Sắc đành đòi một tài đành họa hai'. Thế nhưng, chính vì sự toàn diện ấy mà nàng phải chịu số phận 'Hồng nhan bạc mệnh', trải qua mười lăm năm lưu lạc đầy đau khổ."</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="writing-part">
+                        <h2><i class="part-icon">🎯</i> Kết bài</h2>
+                        <div class="writing-detail">
+                            <h3>Yêu cầu:</h3>
+                            <ul>
+                                <li>Khẳng định giá trị tác phẩm</li>
+                                <li>Đánh giá ý nghĩa vấn đề nghị luận</li>
+                                <li>Nêu cảm nghĩ, bài học rút ra</li>
+                                <li>Liên hệ với hiện tại</li>
+                            </ul>
+                            
+                            <div class="example">
+                                <h3>Ví dụ kết bài:</h3>
+                                <p>"Qua nhân vật Thúy Kiều, Nguyễn Du không chỉ khắc họa thành công số phận người phụ nữ trong xã hội phong kiến mà còn gửi gắm những giá trị nhân văn sâu sắc. Tác phẩm mãi mãi là viên ngọc quý trong kho tàng văn học dân tộc, để lại nhiều suy ngẫm về cuộc đời và con người cho hậu thế."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </main>
     </div>
@@ -428,16 +495,6 @@ public:
             font-size: 1.2rem;
         }
 
-        .sub-menu {
-            display: block;
-            margin-top: 20px;
-        }
-
-        .sub-menu li {
-            padding-left: 40px;
-            font-size: 0.9rem;
-        }
-
         .content {
             flex: 1;
             padding: 30px;
@@ -473,41 +530,21 @@ public:
             align-items: center;
         }
 
+        h3 {
+            font-size: 1.3rem;
+            margin: 15px 0 10px;
+            color: #c0c0ff;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            margin: 12px 0 8px;
+            color: #d0d0ff;
+        }
+
         .part-icon {
             margin-right: 10px;
             font-size: 1.5rem;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .card {
-            background: rgba(20, 20, 50, 0.7);
-            border-radius: 15px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(100, 100, 255, 0.2);
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(100, 100, 255, 0.5);
-            background: rgba(30, 30, 70, 0.8);
-        }
-
-        .card h3 {
-            color: #c0c0ff;
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            color: #a0a0c0;
-            font-size: 0.9rem;
         }
 
         .presentation-content {
@@ -530,37 +567,54 @@ public:
             padding-bottom: 0;
         }
 
-        .presentation-content p {
+        .writing-detail {
+            background: rgba(30, 30, 60, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .writing-detail ul, .writing-detail ol {
+            padding-left: 25px;
+            margin: 10px 0;
+        }
+
+        .writing-detail li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .writing-detail p {
             line-height: 1.6;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
+            margin: 10px 0;
+        }
+
+        .method {
+            background: rgba(40, 40, 80, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #8080ff;
         }
 
         .example {
-            background: rgba(30, 30, 60, 0.5);
+            background: rgba(50, 50, 100, 0.6);
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-top: 15px;
-            border-left: 4px solid #8080ff;
+            border-left: 4px solid #a0a0ff;
         }
 
         .example h3 {
-            color: #a0a0ff;
+            color: #b0b0ff;
             margin-bottom: 10px;
             font-size: 1.1rem;
         }
 
-        .example p, .example ul {
-            color: #d0d0ff;
-            font-size: 1rem;
-        }
-
-        .example ul {
-            padding-left: 20px;
-        }
-
-        .example li {
-            margin-bottom: 8px;
+        .example p {
+            color: #e0e0ff;
+            font-style: italic;
+            line-height: 1.5;
         }
 
         /* Responsive design */
@@ -590,8 +644,8 @@ public:
                 font-size: 1.5rem;
             }
             
-            .card-grid {
-                grid-template-columns: 1fr;
+            h3 {
+                font-size: 1.1rem;
             }
         }
         )";
@@ -605,7 +659,7 @@ int main() {
         return 1;
     }
     
-    std::cout << "Web server môn Văn đang chạy tại http://localhost:10000" << std::endl;
+    std::cout << "Web server Nghị Luận Văn Học đang chạy tại http://localhost:" << port << std::endl;
     std::cout << "Nhấn Ctrl+C để dừng server" << std::endl;
     
     server.handleRequests();
